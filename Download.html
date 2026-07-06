@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>FluxSECS Download</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
+				<script>(function(){try{var t=localStorage.getItem('fluxsecs-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+				<link rel="stylesheet" href="./assets/site.css">
+				</head>
+				<body>
+					<div class="page-wrap">
+						<header class="site-header">
+  <div class="container">
+    <nav class="navbar">
+      <div class="brand-wrap">
+        <a class="brand-link" href="../FluxSECS.html"><svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" aria-label="FluxSECS logo">
+  <defs>
+    <linearGradient id="gradFlux" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#007ACC;stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1"></stop>
+    </linearGradient>
+    <linearGradient id="gradSecs" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1"></stop>
+      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1"></stop>
+    </linearGradient>
+    <filter height="200%" id="glow" width="200%" x="-50%" y="-50%">
+      <feGaussianBlur result="coloredBlur" stdDeviation="12"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <g class="logo-aurora">
+    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
+    <text fill="white" filter="url(#glow)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" style="text-shadow: 0 0 10px #22d3ee" x="494" y="227">SECS</text>
+  </g>
+  <g class="logo-solar">
+    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
+    <text fill="none" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" stroke="rgba(6,182,212,0.4)" stroke-linejoin="round" stroke-width="24" x="494" y="227">SECS</text>
+    <text fill="url(#gradSecs)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="494" y="227">SECS</text>
+  </g>
+</svg></a>
+        <div class="header-actions">
+          <button class="theme-toggle" id="themeBtn" type="button">🌙</button>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="../FluxSECS.html" data-zh="首頁" data-en="Home">首頁</a>        
+        <a href="./FluxSECS_Technical_Manual.html" data-zh="文件" data-en="Docs">文件</a>
+        <a href="./Download.html" class="btn-primary active" data-zh="下載" data-en="Download">下載</a>
+      </div>
+    </nav>
+  </div>
+</header>
+						<main class="page-scroll">
+							<section class="centered-hero compact-page-hero">
+								<div class="container">
+									<h1>下載</h1>
+								</div>
+							</section>
+							<section class="section compact-section">	
+								<div class="container grid-2 compact-grid download-card-grid">
+									<!-- SDK -->
+									<article class="card compact-card download-card">
+										<div class="download-card-body">
+											<h3 class="download-card-title">FluxSECS SDK<span class="badge">v 2.0.0.5</span></h3>
+											<p class="download-card-meta">基於 .NET Standard 2.0</p>
+											<p class="download-card-note">支援 .NET 6+ · .NET Framework 4.7.2+</p>
+										</div>
+										<div class="hero-actions download-card-actions">
+											<a class="btn btn-primary" href="#" onclick="downloadSDK();return false;">下載 SDK</a>
+										</div>
+									</article>
+									<!-- Simulator -->
+									<!-- <article class="card compact-card download-card"> -->
+										<!-- <div class="download-card-body"> -->
+											<!-- <h3 class="download-card-title">FluxSECS Simalutor<span class="badge">20260421</span></h3> -->
+											<!-- <p data-zh="模擬工具。" data-en="Simulation tool.">模擬工具。</p> -->
+										<!-- </div> -->
+										<!-- <div class="hero-actions download-card-actions"> -->
+											<!-- <a class="btn btn-primary" href="#" onclick="downloadSimalutor();return false;">下載 Simalutor</a> -->
+										<!-- </div> -->
+									<!-- </article> -->
+								</div>
+							</section>
+							<footer class="footer">
+								<div class="container footer-stack">
+									<div class="footer-brand">FluxSECS™</div>
+									<div class="footer-copy">© 2026 FluxSECS. All rights reserved.</div>
+								</div>
+							</footer>
+						</main>
+					</div>
+					<script src="./assets/site.js"></script>
+				<script src="./assets/download.js"></script>
+</body>
+			</html>

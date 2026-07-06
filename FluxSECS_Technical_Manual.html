@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="zh-Hant">
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<title>FluxSECS 完整技術文件</title>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+		<link href="./assets/site.css" rel="stylesheet"/>
+	</head>
+	<body class="technical-manual-page">
+		<div class="page-wrap">
+			<header class="site-header">
+  <div class="container">
+    <nav class="navbar">
+      <div class="brand-wrap">
+        <a class="brand-link" href="../FluxSECS.html"><svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" aria-label="FluxSECS logo">
+  <defs>
+    <linearGradient id="gradFlux" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#007ACC;stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1"></stop>
+    </linearGradient>
+    <linearGradient id="gradSecs" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1"></stop>
+      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1"></stop>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1"></stop>
+    </linearGradient>
+    <filter height="200%" id="glow" width="200%" x="-50%" y="-50%">
+      <feGaussianBlur result="coloredBlur" stdDeviation="12"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+  <g class="logo-aurora">
+    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
+    <text fill="white" filter="url(#glow)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" style="text-shadow: 0 0 10px #22d3ee" x="494" y="227">SECS</text>
+  </g>
+  <g class="logo-solar">
+    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
+    <text fill="none" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" stroke="rgba(6,182,212,0.4)" stroke-linejoin="round" stroke-width="24" x="494" y="227">SECS</text>
+    <text fill="url(#gradSecs)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="494" y="227">SECS</text>
+  </g>
+</svg></a>
+        <div class="header-actions">
+          <button class="theme-toggle" id="themeBtn" type="button">🌙</button>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="../FluxSECS.html" data-zh="首頁" data-en="Home">首頁</a>        
+        <a class="active" href="./FluxSECS_Technical_Manual.html" data-zh="文件" data-en="Docs">文件</a>
+        <a href="./Download.html" class="btn-primary" data-zh="下載" data-en="Download">下載</a>
+      </div>
+    </nav>
+  </div>
+</header>
+			<main class="tech-shell">
+				<nav class="sidebar tech-sidebar">
+
+					<ul class="nav-links tech-nav-list">
+						<li>
+							<a href="#config">1. 概觀與配置</a>
+						</li>
+						<li>
+							<a href="#core">2. 核心開發指南</a>
+						</li>
+						<li>
+							<a href="#snfx">3. GEM 標準指令庫</a>
+						</li>
+						<li>
+							<a href="#gem">4. GEM 資料與控制</a>
+						</li>
+						<li>
+							<a href="#diag">5. 診斷與進階</a>
+						</li>
+					</ul>
+				</nav>
+				<div class="tech-main">
+					<div class="main-content">
+						<section id="intro">
+							<!-- 
+                [重要] 標題使用「靜態字體」風格 (CSS 模擬)
+                - Flux: 藍色漸層
+                - SECS: 深色模式發光 / 淺色模式描邊
+            -->
+							<h1>
+								<span class="brand-flux">Flux</span>
+								<span class="brand-secs">SECS</span>
+								<span style="font-family: 'Microsoft JhengHei', sans-serif; font-size: 0.6em; margin-left: 10px; color: var(--text);">完整技術文件</span>
+							</h1>
+							<p>
+								<strong>版本：</strong>V1.0 | <strong>日期：</strong>2025-12-13</p>
+							<ul class="chapter-list clean-list">
+								<li class="chapter-card">
+									<a href="#config" class="chapter-card-link">
+										<span class="chapter-card-title">概觀與配置</span>
+										<span class="chapter-card-desc">Connection.xml / Standard.xml / GemConfig.xml 設定詳解。</span>
+									</a>
+								</li>
+								<li class="chapter-card">
+									<a href="#core" class="chapter-card-link">
+										<span class="chapter-card-title">核心開發指南</span>
+										<span class="chapter-card-desc">元件生命週期、連線狀態機、訊息建構、基礎收發。</span>
+									</a>
+								</li>
+								<li class="chapter-card">
+									<a href="#snfx" class="chapter-card-link">
+										<span class="chapter-card-title">GEM 標準指令庫</span>
+										<span class="chapter-card-desc">S1F1, S2F23, S5F1, S6F11 等 SnFx API 詳解。</span>
+									</a>
+								</li>
+								<li class="chapter-card">
+									<a href="#gem" class="chapter-card-link">
+										<span class="chapter-card-title">GEM 資料與控制</span>
+										<span class="chapter-card-desc">GEM Data (VID/EC/Report) 與 Control State 狀態機。</span>
+									</a>
+								</li>
+								<li class="chapter-card">
+									<a href="#diag" class="chapter-card-link">
+										<span class="chapter-card-title">診斷與進階</span>
+										<span class="chapter-card-desc">日誌系統 (Monitor/Trace) 與 S9 異常處理。</span>
+									</a>
+								</li>
+							</ul>
+							<div class="download-cta">
+								<a href="./Download.html" class="download-cta-button">前往下載中心</a>
+								<span class="download-cta-note">支援 .NET 6, 7, 8, 10 / .NET Framework 4.7.2+</span>
+							</div>
+						</section>
+						<section id="config">
+							<h2 class="chapter-heading">1. 概觀與配置</h2>
+							<p>
+								<strong>FluxSECS</strong> 是一套專為 .NET 環境設計的高效能 HSMS / SECS-II / GEM 通訊元件。它聚焦於 SEMI E37 (HSMS)、E5 (SECS-II) 與 E30 (GEM) 的實務整合。</p>
+							<div class="toc">
+								<h3>本章目錄</h3>
+								<ul>
+									<li>
+										<a href="#section-1-1">1.1 產品簡介與架構</a>
+									</li>
+									<li>
+										<a href="#section-1-2">1.2 快速開始</a>
+									</li>
+									<li>
+										<a href="#section-1-3">1.3 Connection.xml 參數說明</a>
+									</li>
+									<li>
+										<a href="#section-1-4">1.4 標準定義 (Standard.xml)</a>
+									</li>
+									<li>
+										<a href="#section-1-5">1.5 GemConfig.xml 參數說明</a>
+									</li>
+									<li>
+										<a href="#section-1-6">1.6 API 參考：初始化與載入</a>
+									</li>
+								</ul>
+							</div>
+							<h2 id="section-1-1">1.1 產品簡介與架構</h2>
+							<h3>核心架構</h3>
+							<div class="ascii-art">
++-----------------------------------------------------------------------+
+|                           User Application                            |
++-----------------------------------------------------------------------+
+|                             FluxSECS API                              |
+|       (InitializeConfig, SendPrimary, OnDataMessage, SnFx)            |
++-----------------------------------+-----------------------------------+
+|          GEM Logic Layer          |         Message Handling          |
+|  (VID / EC / Alarm / Report / CE) |     (SecsMessage / SecsItem)      |
++-----------------------------------+-----------------------------------+
+|      HSMS Transport Driver        |       SECS-II Message Engine      |
+|      (TCP/IP, T3-T8 Timers)       |      (Serial, T1-T4 Timers)       |
++-----------------------------------+-----------------------------------+
+            </div>
+							<h2 id="section-1-2">1.2 快速開始</h2>
+							<h3>快速上手流程</h3>
+							<p>
+  這裡用「最快可跑」為目標：讓你能在幾分鐘內完成連線、看到 Monitor/Trace、並跑通一組 S1F13 ↔ S1F14（再加上 S1F17 ↔ S1F18）。
+  若你需要更深入的訊息建構、GEM 資料/控制狀態、SnFx 詳解，請往後續章節延伸。
+</p>
+							<h3>步驟 1：把必要檔案放到執行目錄</h3>
+							<ul>
+								<li>
+									<strong>FluxSECS.dll</strong>
+								</li>
+								<li>
+									<strong>Connection.xml</strong>（通訊協定 / 角色 / 連線參數）</li>
+								<li>
+									<strong>Standard.xml</strong>（Message定義；開發商自行定義）</li>
+								<li>
+									<strong>GemConfig.xml</strong>（VID/EC/Report/CEID/Alarm 與 GemSetting）</li>
+								<li>
+									<strong>License.license</strong>授權檔</li>
+							</ul>
+							<p>
+								<code>InitializeConfig(...)</code> 的四個 Path 參數若傳 <code>null</code>，會自動讀取以上預設檔名（位於執行目錄）。
+</p>
+							<h3>步驟 2：建立 Connection.xml</h3>
+							<p>
+  目前網站與文件僅聚焦 <strong>HSMS</strong> 通訊。以下配置以實際已驗證的 HSMS / SECS-II 使用方式為主，
+  我把範例拆成兩份：<strong>你用哪一種，就保留那一份</strong>，另一份可以直接刪除。
+</p>
+							<h4>2-1. HSMS 範例</h4>
+							<pre>
+								<code class="language-xml">&lt;ConnectInfo&gt;
+  &lt;DeviceRole&gt;Host&lt;/DeviceRole&gt;     &lt;!-- Host 或 Equipment --&gt;
+  &lt;Protocol&gt;HSMS&lt;/Protocol&gt;       &lt;!-- 目前聚焦 HSMS --&gt;
+
+  &lt;HSMS&gt;
+    &lt;HSMSMode&gt;Active&lt;/HSMSMode&gt;  &lt;!-- Active 或 Passive --&gt;
+    &lt;LocalIP&gt;127.0.0.1&lt;/LocalIP&gt;
+    &lt;LocalPort&gt;5000&lt;/LocalPort&gt;
+    &lt;RemoteIP&gt;127.0.0.1&lt;/RemoteIP&gt;
+    &lt;RemotePort&gt;5000&lt;/RemotePort&gt;
+
+    &lt;DeviceID&gt;0&lt;/DeviceID&gt;
+    &lt;LinkTestInterval&gt;60&lt;/LinkTestInterval&gt;
+
+    &lt;T3Time&gt;45&lt;/T3Time&gt;
+    &lt;T5Time&gt;10&lt;/T5Time&gt;
+    &lt;T6Time&gt;5&lt;/T6Time&gt;
+    &lt;T7Time&gt;10&lt;/T7Time&gt;
+    &lt;T8Time&gt;5&lt;/T8Time&gt;
+  &lt;/HSMS&gt;
+&lt;/ConnectInfo&gt;</code>
+							</pre>
+<h3>步驟 3：建立 GemConfig.xml</h3>
+							<p>
+  FluxSECS 啟動時會讀取 GemConfig.xml。<strong>最小可用版本只需要 &lt;GemSetting&gt;</strong>；
+  其他 VIDs/ECs/Reports/CEIDs/Alarms 可以等你整合到對應功能時再慢慢補。
+</p>
+							<pre>
+								<code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;request&gt;
+  &lt;GemSetting&gt;
+    &lt;DefaultOnlineState&gt;0&lt;/DefaultOnlineState&gt;
+    &lt;TimeFormat&gt;2&lt;/TimeFormat&gt;
+
+    &lt;AutoS9F1&gt;True&lt;/AutoS9F1&gt;
+    &lt;AutoS9F3&gt;True&lt;/AutoS9F3&gt;
+    &lt;AutoS9F5&gt;True&lt;/AutoS9F5&gt;
+    &lt;AutoS9F7&gt;True&lt;/AutoS9F7&gt;
+    &lt;AutoS9F9&gt;True&lt;/AutoS9F9&gt;
+  &lt;/GemSetting&gt;
+
+  &lt;!-- （可選）先放 1 個示範 VID，日後再逐步補齊 VIDs / ECs / Reports / CEIDs / Alarms --&gt;
+  &lt;VIDs&gt;
+    &lt;VID ID="1001" Name="ControlState" Format="U4" Type="SVID" Value="0" Units="" /&gt;
+  &lt;/VIDs&gt;
+&lt;/request&gt;</code>
+							</pre>
+							<h3>步驟 4：Console 快速驗證</h3>
+							<p>
+  Host 端的重點是：<strong>等 ConnectState 進入 Selected</strong> 後送訊，並在 <code>OnDataMessage</code> 中處理回來的 Secondary（例如 S1F14 / S1F18）。
+</p>
+							<pre>using System;
+using System.Threading;
+using FluxSECS;
+
+class Program
+{
+    static void Main()
+    {
+        var secs = new SECS();
+
+        // 1) 一次性初始化：若參數為 null，會讀取「執行目錄」下的預設檔
+        //    Connection.xml / GemConfig.xml / Standard.xml / License.license
+        secs.InitializeConfig(
+            ConnectionPath: null,
+            GemDataPath: null,
+            StandardDataPath: null,
+            LicensePath: null,
+            debugmode: true,
+            monitor: (m) =&gt; Console.WriteLine($"[MON] {m}"),
+            trace:   (t) =&gt; Console.WriteLine($"[TRC] {t}")
+        );
+
+        if (!secs.LicenseValid)
+        {
+            Console.WriteLine("授權無效，無法啟動通訊。");
+            return;
+        }
+
+        // 2) 監聽連線狀態：HSMS 建議等待 Selected 後再送 Data Message
+        var selected = new ManualResetEventSlim(false);
+        secs.ConnectStateChanged += (s) =&gt;
+        {
+            Console.WriteLine($"[STATE] {s}");
+            if (s == ConnectState.Selected) selected.Set();
+        };
+
+        // 3) 收到訊息（Primary/Secondary）
+        secs.OnDataMessage += (type, msg) =&gt;
+        {
+            Console.WriteLine($"[RX] {type} S{msg.Stream}F{msg.Function} W={msg.Reply} TID={msg.TID}");
+            // Host 端通常處理 SecondaryIn（例如 S1F14 / S1F18）
+        };
+
+        // 4) 啟動連線
+        secs.Start();
+
+        // 5) 等待 Selected（HSMS 建議在 Selected 後再開始正式收送訊息）
+        if (!selected.Wait(TimeSpan.FromSeconds(30)))
+        {
+            Console.WriteLine("等待 Selected 超時：請檢查 HSMSMode/Port/防火牆/對端是否已啟動。");
+            secs.Close();
+            return;
+        }
+
+        // 6) 最小驗證：送 S1F13 (Establish Comm) -&gt; 等 S1F14
+        secs.Standard_S1F13(modelName: "MY_MODEL", softRev: "1.0");
+
+        // 7) 常見下一步：送 S1F17 (Online Request) -&gt; 等 S1F18
+        secs.Standard_S1F17();
+
+        Console.WriteLine("Press ENTER to exit...");
+        Console.ReadLine();
+        secs.Close();
+        secs.Dispose();
+    }
+}
+</pre>
+							<h3>步驟 5：Console 快速驗證</h3>
+							<p>
+  Equipment 端的重點是：在 <code>OnDataMessage</code> 收到 PrimaryIn 後，依需求回 <code>SendSecondary</code>。
+  下例示範用內建 <code>Standard_S1F14</code> / <code>Standard_S1F18</code> 回覆。
+</p>
+							<pre>using System;
+using FluxSECS;
+
+class Program
+{
+    static void Main()
+    {
+        var secs = new SECS();
+
+        secs.InitializeConfig(
+            ConnectionPath: null,
+            GemDataPath: null,
+            StandardDataPath: null,
+            LicensePath: null,
+            debugmode: true,
+            monitor: (m) =&gt; Console.WriteLine($"[MON] {m}"),
+            trace:   (t) =&gt; Console.WriteLine($"[TRC] {t}")
+        );
+
+        if (!secs.LicenseValid)
+        {
+            Console.WriteLine("授權無效，無法啟動通訊。");
+            return;
+        }
+
+        secs.ConnectStateChanged += (s) =&gt; Console.WriteLine($"[STATE] {s}");
+
+        // Equipment 端：收到 Primary 就回 Secondary（示範 S1F13 / S1F17）
+        secs.OnDataMessage += (type, msg) =&gt;
+        {
+            if (type != TransactionType.PrimaryIn) return;
+
+            Console.WriteLine($"[RX] PrimaryIn S{msg.Stream}F{msg.Function} W={msg.Reply} TID={msg.TID}");
+
+            if (msg.Stream == 1 &amp;&amp; msg.Function == 13)
+            {
+                // 回覆 S1F14
+                secs.Standard_S1F14(msg, commAck: 0, mdln: "MY_EQP", softrev: "1.0.0");
+            }
+            else if (msg.Stream == 1 &amp;&amp; msg.Function == 17)
+            {
+                // 回覆 S1F18
+                secs.Standard_S1F18(msg, onlAck: 0);
+            }
+        };
+
+        secs.Start();
+
+        Console.WriteLine("Equipment ready. Press ENTER to exit...");
+        Console.ReadLine();
+        secs.Close();
+        secs.Dispose();
+    }
+}
+</pre>
+							<h3>常見問題與排除</h3>
+							<ul>
+								<li>
+									<strong>一直停在 Connected / NotSelected</strong>：請檢查 <code>HSMSMode</code>（Active/Passive）、Port 是否被防火牆擋住、對端是否已啟動監聽或連線。</li>
+								<li>
+									<strong>要送訊但沒有成功</strong>：HSMS 建議在 <code>ConnectState == Selected</code> 後才送 Data Message；若已斷線（Disconnected）送訊會被忽略並寫入 Trace。</li>
+								<li>
+									<strong>UI 程式卡住/跨執行緒例外</strong>：<code>OnDataMessage</code> 可能在背景執行緒觸發；WinForms/WPF 請用 Invoke/Dispatcher 回到 UI thread。</li>
+								<li>
+									<strong>看不到 Trace</strong>：Trace 受 <code>DebugMode</code> 控制；請在 <code>InitializeConfig(debugmode: true)</code> 或設定 <code>secs.DebugMode = true</code>。</li>
+								<li>
+									<strong>要快速定位封包問題</strong>：先看 Monitor（封包層 TX/RX），再開 Trace 看聚合後的內容與計時器/狀態細節。</li>
+							</ul>
+							<p>
+  ✅ 下一步建議：若你要自訂訊息內容，請到「2.3 訊息建構基礎」與「2.4 基礎訊息收發」；若要直接用標準 API，請到「3. GEM 標準指令庫 (SnFx)」。
+</p>
+							<h2 id="section-1-3">1.3 Connection.xml 參數說明</h2>
+							<p>
+  本節說明 <code>Connection.xml</code> 各欄位的用途與常見設定。
+  若你只想先完成「快速可跑」驗證，請直接使用
+  <a href="#section-1-2" class="doc-jump-link">➜ 1.2 快速開始</a> 的「步驟 2」範例（HSMS）。
+</p>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th style="width:22%">欄位</th>
+											<th style="width:20%">範例</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>DeviceRole</code>
+											</td>
+											<td>
+												<code>Host</code>
+											</td>
+											<td>角色：<code>Host</code> 或 <code>Equipment</code>。影響你在整合時「誰先送訊 / 誰回覆」的預期流程。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Protocol</code>
+											</td>
+											<td>
+												<code>HSMS</code>
+											</td>
+											<td>通訊協定。現階段文件與網站僅列出實際驗證中的 <code>HSMS</code> 配置，元件會讀取對應的 <code>&lt;HSMS&gt;</code> 區段。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>HSMSMode</code>
+											</td>
+											<td>
+												<code>Active</code>
+											</td>
+											<td>
+												<code>Active</code> 主動連線（對外連出）；<code>Passive</code> 被動監聽（等待對方連入）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LocalIP</code> / <code>LocalPort</code>
+											</td>
+											<td>
+												<code>127.0.0.1</code> / <code>5000</code>
+											</td>
+											<td>本機 IP/Port。<strong>Passive</strong> 模式主要依賴 <code>LocalPort</code> 作為監聽埠。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>RemoteIP</code> / <code>RemotePort</code>
+											</td>
+											<td>
+												<code>127.0.0.1</code> / <code>5000</code>
+											</td>
+											<td>遠端 IP/Port。<strong>Active</strong> 模式會連往此位址。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>DeviceID</code>
+											</td>
+											<td>
+												<code>0</code>
+											</td>
+											<td>SECS Device ID。雙方需一致（不一致時常見會引發 S9 類錯誤）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LinkTestInterval</code>
+											</td>
+											<td>
+												<code>60</code>
+											</td>
+											<td>LinkTest 週期（秒）。設 <code>0</code> 表示不主動送（仍可回覆對方的 LinkTest）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>T3Time</code>
+											</td>
+											<td>
+												<code>45</code>
+											</td>
+											<td>資料訊息交易逾時（等待 Secondary）。常見 45 秒。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>T5Time</code>
+											</td>
+											<td>
+												<code>10</code>
+											</td>
+											<td>重新連線等待/回復用計時（常見 10 秒）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>T6Time</code>
+											</td>
+											<td>
+												<code>5</code>
+											</td>
+											<td>控制訊息回覆等待（如 LinkTest）。常見 5 秒。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>T7Time</code>
+											</td>
+											<td>
+												<code>10</code>
+											</td>
+											<td>Passive 等待 Select 的逾時計時（常見 10 秒）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>T8Time</code>
+											</td>
+											<td>
+												<code>5</code>
+											</td>
+											<td>網路封包層級等待（常見 5 秒）。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+<p>
+								<strong>小提醒：</strong>若你在 HSMS 下要送資料訊息，建議等 <code>ConnectState == Selected</code> 後再送，最容易一次成功。</p>
+							<h2 id="section-1-4">1.4 標準定義</h2>
+							<p>
+								<code>Standard.xml</code> 用於定義每個 SECS-II 訊息（SxFy）的<strong>結構規格</strong>，提供執行期的格式驗證（特別是 <code>AutoS9F7</code> 啟用時的 Illegal Data 判斷），以及離線/工具（例如依定義產生範例 raw）所需的樣板。</p>
+							<div class="alert alert-info">
+								<strong>重點</strong>
+								<br/>
+								<ul style="margin: .5rem 0 0 1.2rem;">
+									<li>
+										<strong>同一個 SxFy 允許多組定義</strong>（<code>Name</code> 不同即可）。驗證時會<strong>逐一比對</strong>，任一組<strong>完全符合</strong>即視為合法並停止往下比對。</li>
+									<li>
+										<strong>List 子項目數量</strong>只由 <code>Variables</code> 決定：<code>true</code> 不檢查數量（較多/較少/一致皆合法）；<code>false</code> 必須與定義完全一致（較多或較少都不合法）。</li>
+									<li>
+										<strong>Scalar（非 List）長度</strong>在 <code>CheckLength="True"</code> 時，使用 <code>Min/Max</code> 進行元素個數上下界檢查（<code>Min</code>=下限、<code>Max</code>=上限）。</li>
+									<li>
+										<code>Value/Values</code> 僅作為<strong>讀入/範例值</strong>使用，不做固定值比對（不會因為值不同觸發 S9F7）。</li>
+								</ul>
+							</div>
+							<h3>1.4.1 驗證流程</h3>
+							<ol>
+								<li>收到 Primary Message 後，以其 <strong>Stream/Function（SxFy）</strong> 在 <code>Standard.xml</code> 尋找所有同 SxFy 的 <code>&lt;SecsMessage ...&gt;</code> 定義（即使 <code>Name</code> 不同也都納入）。</li>
+								<li>對每一組定義進行「結構比對」：由最外層 <code>SecsItem</code> 開始遞迴驗證（格式、List 規則、Scalar 長度規則）。</li>
+								<li>若任一組定義「完全符合」則視為合法；若全部不符合且 <code>AutoS9F7</code> 啟用，則回覆 <code>S9F7 (Illegal Data)</code>。</li>
+							</ol>
+							<h3>1.4.2 欄位與數值意義</h3>
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th style="width: 220px;">欄位</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>SecsMessage/Name</code>
+											</td>
+											<td>同一個 SxFy 的「定義名稱」。用於區分多組定義（例如：<code>S1F1 A</code>、<code>S1F1 B</code>）。驗證時會逐一定義比對，任一組完全符合即通過。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsMessage/Stream</code>, <code>Function</code>
+											</td>
+											<td>對應 SxFy（例如 Stream=1, Function=1 代表 S1F1）。作為定位候選定義的主要鍵值。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsMessage/Reply</code>
+											</td>
+											<td>描述此 Primary 是否預期有 Secondary（屬於訊息特性描述；不作為 S9F7 的固定值判斷）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/SecsFormat</code>
+											</td>
+											<td>指定此節點的 SECS-II 型別（例如 <code>List</code>, <code>ASCII</code>, <code>U1</code>, <code>I4</code> 等）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/SecsFormat_Def</code>
+											</td>
+											<td>允許多個型別（以空白分隔），例如 <code>"U4 ASCII"</code> 代表此節點可接受 U4 或 ASCII。屬於「格式集合」驗證。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/Variables</code>
+											</td>
+											<td>
+												<strong>只對 List 有意義</strong>。<br/>
+												<ul style="margin:.25rem 0 0 1.2rem;">
+													<li>
+														<code>Variables="True"</code>：可變動結構，<strong>不檢查</strong> List 子項目數量（較多/較少/一致皆合法）。</li>
+													<li>
+														<code>Variables="False"</code>：固定結構，List 子項目數量必須<strong>完全一致</strong>。</li>
+												</ul>
+        補充：所謂「定義的子項目數量」不是 XML 的獨立屬性，而是該 List 節點底下 <code>&lt;SecsItem .../&gt;</code> 子節點的數量。
+      </td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/CheckLength</code>
+											</td>
+											<td>
+        元素個數比對開關（預設為 <code>True</code>）。<br/>
+        本專案規則：<strong>僅針對 Scalar（非 List）生效</strong>，並以 <code>Min/Max</code> 作為元素個數上下界。List 的數量規則不由 CheckLength 控制，請改用 <code>Variables</code>。
+      </td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/Min</code>, <code>Max</code>
+											</td>
+											<td>
+												<strong>僅在 Scalar 且 <code>CheckLength="True"</code> 時使用</strong>。<br/>
+												<ul style="margin:.25rem 0 0 1.2rem;">
+													<li>
+														<code>Min</code>：元素個數下限（Lower bound）。</li>
+													<li>
+														<code>Max</code>：元素個數上限（Upper bound）。</li>
+													<li>數值 <code>0</code> 代表「不設定該邊界」（例如 <code>Min=0</code> 表示不檢查下限；<code>Max=0</code> 表示不檢查上限）。</li>
+													<li>若 <code>Min &gt; Max</code>（上下界顛倒），視為「不做長度卡控」（不會因長度觸發 S9F7）。</li>
+												</ul>
+        例：<code>ASCII Min="0" Max="3"</code> 表示 ASCII 字串長度可為 0~3；<code>U1 Min="1" Max="2"</code> 表示 U1 元素個數必須在 1~2 之間。
+      </td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/Value</code>, <code>Values</code>
+											</td>
+											<td>
+        範例值/預設值。用於<strong>讀入</strong>或<strong>產生範例訊息</strong>（例如依 Standard.xml 產生 raw 作為測試）。<br/>
+												<strong>不做固定值比對</strong>：實際收到的值與此處不同，不會因此觸發 S9F7。
+      </td>
+										</tr>
+										<tr>
+											<td>
+												<code>SecsItem/Remark</code>
+											</td>
+											<td>備註/說明文字，常用於註記欄位語意（例如參數名稱）。不影響驗證結果。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h3>1.4.3 範例</h3>
+							<p>以下展示常見用法：Scalar 長度限制、List 的 Variables 規則、以及同一個 SxFy 多組定義。</p>
+							<h4>（1）Scalar：用 Min/Max 描述元素個數上下界</h4>
+							<pre>
+								<code class="language-xml">&lt;SecsItem SecsFormat="ASCII" CheckLength="True" Min="1" Max="64" Remark="MODEL_NAME" /&gt;
+&lt;SecsItem SecsFormat="U1"    CheckLength="True" Min="0" Max="2"  Remark="FLAGS" /&gt;</code>
+							</pre>
+							<h4>（2）List：用 Variables 決定是否檢查子項目數量</h4>
+							<pre>
+								<code class="language-xml">&lt;!-- 固定結構：必須與定義完全一致 --&gt;
+&lt;SecsItem SecsFormat="List" Variables="False"&gt;
+  &lt;SecsItem SecsFormat="U1" /&gt;
+  &lt;SecsItem SecsFormat="U1" /&gt;
+&lt;/SecsItem&gt;
+
+&lt;!-- 可變動結構：不檢查子項目數量（較多/較少/一致皆合法） --&gt;
+&lt;SecsItem SecsFormat="List" Variables="True"&gt;
+  &lt;SecsItem SecsFormat="ASCII" Remark="CPNAME" /&gt;
+  &lt;SecsItem SecsFormat="ASCII" Remark="CPVAL" /&gt;
+&lt;/SecsItem&gt;</code>
+							</pre>
+							<h4>（3）同一個 SxFy 多組定義：逐一比對，任一完全符合即通過</h4>
+							<pre>
+								<code class="language-xml">&lt;SecsFormat&gt;
+  &lt;!-- S1F1 定義 A --&gt;
+  &lt;SecsMessage Name="S1F1_A" Stream="1" Function="1" Reply="True"&gt;
+    &lt;SecsItem SecsFormat="List" Variables="False"&gt;
+      &lt;SecsItem SecsFormat="ASCII" CheckLength="True" Min="0" Max="16" Remark="A_FIELD" /&gt;
+    &lt;/SecsItem&gt;
+  &lt;/SecsMessage&gt;
+
+  &lt;!-- S1F1 定義 B --&gt;
+  &lt;SecsMessage Name="S1F1_B" Stream="1" Function="1" Reply="True"&gt;
+    &lt;SecsItem SecsFormat="List" Variables="False"&gt;
+      &lt;SecsItem SecsFormat="U1" CheckLength="True" Min="1" Max="2" Remark="B_FIELD" /&gt;
+    &lt;/SecsItem&gt;
+  &lt;/SecsMessage&gt;
+&lt;/SecsFormat&gt;</code>
+							</pre>
+							<h2 id="section-1-5">1.5 GemConfig.xml 參數說明</h2>
+							<p>
+								<code>GemConfig.xml</code> 用來定義 GEM 的資料模型（VID/EC/Report/CEID/Alarm）與自動化開關（GemSetting）。
+  若你只想先完成「最快可跑」驗證，請直接使用
+  <a href="#section-1-2" class="doc-jump-link">➜ 1.2 快速開始</a> 的「步驟 3：最小 GemConfig.xml」。
+</p>
+							<h3>GemSetting（自動化開關 / 行為設定）</h3>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th style="width:22%">欄位</th>
+											<th style="width:20%">範例</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>DefaultOnlineState</code>
+											</td>
+											<td>
+												<code>0</code>
+											</td>
+											<td>預設 Online 狀態（依你的整合策略設定；不確定就先用 0）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>TimeFormat</code>
+											</td>
+											<td>
+												<code>2</code>
+											</td>
+											<td>時間格式設定（不確定就先用 2）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AutoS9F1</code>
+											</td>
+											<td>
+												<code>True</code>
+											</td>
+											<td>收到不合法 Device ID 時，是否自動回 S9F1。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AutoS9F3</code>
+											</td>
+											<td>
+												<code>True</code>
+											</td>
+											<td>收到不合法 Stream/Function 時，是否自動回 S9F3。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AutoS9F5</code>
+											</td>
+											<td>
+												<code>True</code>
+											</td>
+											<td>收到不合法 Function Type/控制訊息狀態時，是否自動回 S9F5。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AutoS9F7</code>
+											</td>
+											<td>
+												<code>True</code>
+											</td>
+											<td>收到資料格式不符 Standard.xml 定義時，是否自動回 S9F7。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AutoS9F9</code>
+											</td>
+											<td>
+												<code>True</code>
+											</td>
+											<td>其他錯誤情境（例如資料長度/編碼問題）是否自動回 S9F9（依你的版本實作）。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h3>VIDs（變數定義）</h3>
+							<p>
+								<code>&lt;VIDs&gt;</code> 內包含多筆 <code>&lt;VID ... /&gt;</code>。每一筆代表一個可讀/可回報的變數（SVID / DVID）。
+</p>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th style="width:22%">屬性</th>
+											<th style="width:20%">範例</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>ID</code>
+											</td>
+											<td>
+												<code>1001</code>
+											</td>
+											<td>VID 編碼（字串或數值皆可；建議用純數字字串）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Name</code>
+											</td>
+											<td>
+												<code>ControlState</code>
+											</td>
+											<td>顯示名稱（給人看的）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Format</code>
+											</td>
+											<td>
+												<code>U4</code>
+											</td>
+											<td>SECS-II 格式（例如 U4 / I4 / ASCII / Boolean...）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Type</code>
+											</td>
+											<td>
+												<code>SVID</code>
+											</td>
+											<td>類型：常見 <code>SVID</code> / <code>DVID</code>。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Value</code>
+											</td>
+											<td>
+												<code>0</code>
+											</td>
+											<td>（可選）預設值；若你的整合是由程式動態更新，可先不填或填 0。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Units</code>
+											</td>
+											<td>
+												<code>""</code>
+											</td>
+											<td>（可選）單位描述。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h3>其他節點（ECs / Reports / CEIDs / Alarms）</h3>
+							<p>
+  這些節點用於完整 GEM 整合：<strong>事件回報、報表綁定、異常/警報</strong> 等。
+  若你目前只需要先把通訊跑通，可以先不建立；等整合到對應功能時再逐步補齊。
+</p>
+							<h2 id="section-1-6">1.6 API 參考：初始化與載入</h2>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>方法</th>
+											<th>path 參數</th>
+											<th>行為說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>InitializeConfig(...)</code>
+											</td>
+											<td>多個路徑</td>
+											<td>整合初始化，依序呼叫下列 Load 方法。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LoadConnectionInfo</code>
+												<br/>
+												<code>ReLoadConnectionInfo</code>
+											</td>
+											<td>
+												<code>null</code>
+											</td>
+											<td>讀取 <code>Connection.xml</code>。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LoadStandardData</code>
+												<br/>
+												<code>ReLoadStandardData</code>
+											</td>
+											<td>
+												<code>null</code>
+											</td>
+											<td>讀取 <code>Standard.xml</code>。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LoadGemData</code>
+												<br/>
+												<code>ReLoadGemData</code>
+											</td>
+											<td>
+												<code>null</code>
+											</td>
+											<td>讀取 <code>GemConfig.xml</code>。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>LoadLicense</code>
+											</td>
+											<td>
+												<code>null</code>
+											</td>
+											<td>讀取 <code>License.license</code>。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</section>
+<section id="core">
+							<h2 class="chapter-heading">2. 核心開發指南</h2>
+							<div class="toc">
+								<h3>本章目錄</h3>
+								<ul>
+									<li>
+										<a href="#section-2-1">2.1 元件生命週期</a>
+									</li>
+									<li>
+										<a href="#section-2-2">2.2 連線狀態管理 (Connect State)</a>
+									</li>
+									<li>
+										<a href="#section-2-3">2.3 訊息建構基礎 (Message Building)</a>
+									</li>
+									<li>
+										<a href="#section-2-4">2.4 基礎訊息收發 (Transaction)</a>
+									</li>
+								</ul>
+							</div>
+							<h2 id="section-2-1">2.1 元件生命週期</h2>
+							<p>本節說明如何在應用程式中正確地實例化、啟動與關閉 FluxSECS 通訊元件。</p>
+							<h3>實例化與初始化</h3>
+							<pre>
+								<code class="language-csharp">FluxSECS.SECS secs = new FluxSECS.SECS();
+
+// 初始化設定並訂閱 Log
+secs.InitializeConfig(
+    ConnectionPath: "Config/Connection.xml",
+    GemDataPath: "Config/GemConfig.xml",
+    StandardDataPath: "Config/Standard.xml",
+    LicensePath: "Config/License.license",
+    debugmode: true,
+    monitor: (msg) =&gt; Console.WriteLine($"[MON] {msg}"),
+    trace: (msg) =&gt; Console.WriteLine($"[TRC] {msg}")
+);</code>
+							</pre>
+							<h3>啟動與關閉</h3>
+							<ul>
+								<li>
+									<strong>Start()</strong>: 依據 <code>Connection.xml</code> 的設定 (HSMS) 啟動底層連線。</li>
+								<li>
+									<strong>Close()</strong>: 正常關閉連線。若為 HSMS 連線中，會嘗試發送 <code>Separate.Req</code> 後再斷線。</li>
+								<li>
+									<strong>Dispose()</strong>: 釋放物件所有資源，通常在程式結束時呼叫。</li>
+							</ul>
+							<h2 id="section-2-2">2.2 連線狀態管理</h2>
+							<h3>狀態定義</h3>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th style="width: 20%">狀態名稱</th>
+											<th style="width: 80%">詳細介紹</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>Disconnected</code>
+											</td>
+											<td>
+												<strong>未連線</strong>
+												<br/>
+                                初始狀態，或網路/ComPort 已斷開。此時無法進行任何通訊。
+                            </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Connected</code>
+											</td>
+											<td>
+												<strong>物理連線已建立</strong>
+												<br/>
+												<ul>
+													<li>
+														<strong>HSMS</strong>: TCP Socket 已連線，但尚未進行 Select 握手。此時僅能發送控制訊息 (Select.Req)，不能發送資料訊息。</li>
+													<li>
+														<strong>HSMS</strong>: 在 Connected 階段仍需完成 Select 握手；正式資料訊息建議於 <code>Selected</code> 後開始收送。</li>
+												</ul>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>NotSelected</code>
+											</td>
+											<td>
+												<strong>(HSMS 專用) 等待握手</strong>
+												<br/>
+                                TCP 已連線，正在進行 HSMS Select 握手程序 (T7 Timeout 計時中)。<br/>
+                                若為 Active 模式，表示已發送 Select.Req 等待回覆；若為 Passive 模式，表示正在等待對方發送 Select.Req。
+                            </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Selected</code>
+											</td>
+											<td>
+												<strong>通訊就緒</strong>
+												<br/>
+                                HSMS Select 握手已成功完成 (T3~T8 Timer 運作正常)。<br/>
+												<span style="color: #4ade80; font-weight: bold;">這是唯一可以正常收發 SxFy 資料訊息的狀態。</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h3>事件監聽</h3>
+							<p>應用程式應訂閱 <code>ConnectStateChanged</code> 事件以掌握連線狀況。</p>
+							<pre>
+								<code class="language-csharp">secs.ConnectStateChanged += (state) =&gt; 
+{
+    Console.WriteLine($"連線狀態變更: {state}");
+    if (state == ConnectState.Selected)
+    {
+        // HSMS Selected 後，可開始主動發送資料
+        Console.WriteLine("通訊已建立，可以傳送訊息。");
+    }
+};</code>
+							</pre>
+							<h2 id="section-2-3">2.3 SECS Message建構</h2>
+							<p>FluxSECS 採用物件導向方式建構 SECS-II 訊息。所有訊息皆由 <code>SecsMessage</code> 容器與內部的 <code>SecsItem</code> 資料單元組成。</p>
+							<h3>SecsItem (資料單元)</h3>
+							<p>
+								<code>SecsItem</code> 是 SECS-II Body 的最小資料單元：每一顆 Item 都有一個 <strong>格式 (SecsFormat)</strong>，內容要嘛是 <strong>Scalar 值</strong>，要嘛是 <strong>List(巢狀子節點)</strong>。</p>
+							<ul>
+								<li>
+									<strong>List</strong>：用 <code>Items</code> 儲存子節點（可巢狀）。</li>
+								<li>
+									<strong>Scalar</strong>：用 <code>Values</code> 儲存值；FluxSECS 內部以「字串」保存，編碼時才轉成對應型別。</li>
+								<li>
+									<strong>B(Binary)</strong>：輸入可用十進位或十六進位；內部以十進位字串保存，但 SML/Log 會以 2 位十六進位顯示（例如 <code>0x0A</code> → 顯示 <code>0A</code>）。</li>
+							</ul>
+							<h4>支援的格式</h4>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>SecsFormat</th>
+											<th>SML 顯示</th>
+											<th>意義</th>
+											<th>範例</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>List</code>
+											</td>
+											<td>
+												<code>L[n]</code>
+											</td>
+											<td>巢狀容器（子節點數量 n）</td>
+											<td>
+												<code>new SecsItem()</code> 或 <code>new SecsItem(SecsFormat.List)</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>B</code>
+											</td>
+											<td>
+												<code>B[n]</code>
+											</td>
+											<td>Binary (byte)</td>
+											<td>
+												<code>new SecsItem { B_ = new[] { "0x00", "0xFF" } }</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Boolean</code>
+											</td>
+											<td>
+												<code>BOOLEAN[n]</code>
+											</td>
+											<td>布林（0/1 或 true/false）</td>
+											<td>
+												<code>new SecsItem { Boolean = "true" }</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>ASCII</code>
+											</td>
+											<td>
+												<code>A[n]</code>
+											</td>
+											<td>ASCII 字串（n=byte 長度）</td>
+											<td>
+												<code>new SecsItem { ASCII = "MDLN-01" }</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>JIS8</code>
+											</td>
+											<td>
+												<code>J[n]</code>
+											</td>
+											<td>JIS8 字串</td>
+											<td>
+												<code>new SecsItem { JIS8 = "日本語" }</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>I1/I2/I4/I8</code>
+											</td>
+											<td>
+												<code>I1[n]...</code>
+											</td>
+											<td>有號整數（1/2/4/8 bytes）</td>
+											<td>
+												<code>new SecsItem(SecsFormat.I4, "123")</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>U1/U2/U4/U8</code>
+											</td>
+											<td>
+												<code>U1[n]...</code>
+											</td>
+											<td>無號整數（1/2/4/8 bytes）</td>
+											<td>
+												<code>new SecsItem(SecsFormat.U4, "1024")</code>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>F4/F8</code>
+											</td>
+											<td>
+												<code>F4[n]...</code>
+											</td>
+											<td>浮點數（4/8 bytes；允許科學記號）</td>
+											<td>
+												<code>new SecsItem(SecsFormat.F8, "1.23E-4")</code>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h4>建立方式</h4>
+							<h5>方式 A：直接建立 Item（Scalar）</h5>
+							<pre>
+								<code class="language-csharp">// 單值
+var u4 = new SecsItem(SecsFormat.U4, "100");
+
+// 多值（例如 U4[3] 1 2 3）
+var u4Multi = new SecsItem(SecsFormat.U4, new[] { "1", "2", "3" });
+
+// ASCII（字串）
+var mdln = new SecsItem { ASCII = "MDLN-01" };</code>
+							</pre>
+							<h5>方式 B：用 List 當容器，直接呼叫 Add_*（最簡潔）</h5>
+							<p>當 <code>SecsItem</code> 本身是 <code>List</code> 時，呼叫 <code>Add_U4/Add_ASCII/Add_B ...</code> 會<strong>自動建立一顆子 Item</strong>並加入 List（你不需要自己 new 子節點）。</p>
+							<pre>
+								<code class="language-csharp">// 建立 L,2 (MDLN, SOFTREV)
+var root = new SecsItem(); // 預設就是 List
+root.Add_ASCII("MDLN-01");
+root.Add_ASCII("1.0.0");</code>
+							</pre>
+							<h5>方式 C：Object Initializer + L 初始化器（巢狀結構最清楚）</h5>
+							<pre>
+								<code class="language-csharp">var root = new SecsItem
+{
+    L =
+    {
+        new SecsItem { ASCII = "MDLN-01" },
+        new SecsItem { ASCII = "1.0.0" },
+        new SecsItem
+        {
+            L =
+            {
+                new SecsItem { U4 = "100" },
+                new SecsItem { Boolean = "true" }
+            }
+        }
+    }
+};</code>
+							</pre>
+							<h4>收到訊息後取值</h4>
+							<ul>
+								<li>
+									<strong>List 取子節點</strong>：可用索引器 <code>root[0]</code>，或用路徑 <code>root.Get(2,1,0)</code>。</li>
+								<li>
+									<strong>Scalar 取值</strong>：用 <code>Value</code>（單值/合併字串）或 <code>Values</code>（字串陣列）。</li>
+							</ul>
+							<pre>
+								<code class="language-csharp">// 假設 Body 第一顆是 List
+var root = msg.Items[0];
+
+// L,2 (MDLN, SOFTREV)
+string mdln = root[0].Value;
+string softrev = root[1].Value;
+
+// 也可以用 Get(路徑)
+string first = root.Get(0).Value;</code>
+							</pre>
+							<h4>B(Binary) 的輸入規則小心踩雷</h4>
+							<p>FluxSECS 的 <code>B</code> 型態允許你用「十進位」或「十六進位」字串輸入：</p>
+							<ul>
+								<li>
+									<strong>十六進位判斷</strong>：以 <code>0x</code> 開頭，或字串包含 <code>A~F/a~f</code>。</li>
+								<li>
+									<strong>內部保存</strong>：一律轉成十進位字串保存（例如 <code>0xFF</code> 會保存成 <code>"255"</code>）。</li>
+								<li>
+									<strong>顯示/輸出</strong>：ToString / SML / Log 會顯示成兩位十六進位（例如顯示 <code>FF</code>）。</li>
+							</ul>
+							<pre>
+								<code class="language-csharp">// 這三種都可以（結果都是同一個 byte 0x0A）
+var b1 = new SecsItem { B = "10" };     // 十進位
+var b2 = new SecsItem { B = "0x0A" };   // 十六進位（0x）
+var b3 = new SecsItem { B = "0A" };     // 十六進位（含 A~F）</code>
+							</pre>
+							<h4>Remark（SML 註解覆蓋）</h4>
+							<p>若你有使用 <code>Standard.xml</code> 產生 SML 註解，<code>SecsItem.Remark</code> 可用來「覆蓋」該節點的註解（優先於 Standard.xml）。你也可以使用帶 remark 的 Add_* 多載一次加入值與註解。</p>
+							<pre>
+								<code class="language-csharp">var root = new SecsItem();
+root.Add_U4("1001", "DATAID");          // 加值 + 註解
+root.Add_ASCII("LOT-001", "LOTID");     // 加字串 + 註解</code>
+							</pre>
+							<h3>SecsMessage (訊息容器)</h3>
+							<p>
+								<code>SecsMessage</code> 代表一筆完整的 SECS 交易，包含 Header 與 Body (Stream, Function, W-Bit)。</p>
+							<pre>
+								<code class="language-csharp">// 範例：建立 S1F1 (Are You There), W-Bit = True
+var msg = new SecsMessage(1, 1, true);
+// S1F1 通常沒有 Body，所以不需要 Add Item</code>
+							</pre>
+							<h2 id="section-2-4">2.4 基礎訊息收發</h2>
+							<h3>主動發送 (SendPrimary)</h3>
+							<p>用於發起新的交易 (Primary Message)。若 <code>Reply=true</code>，元件會自動啟動 T3 Timer 等待回覆。</p>
+							<pre>
+								<code class="language-csharp">// 範例：發送 S1F13 (建立通訊請求)
+var s1f13 = new SecsMessage(1, 13, true);
+// 組裝 Body: L,2 (MDLN, SOFTREV)
+var root = new SecsItem(SecsFormat.List);
+root.Add_ASCII("MDLN-01"); // Model Name
+root.Add_ASCII("1.0.0");   // Software Rev
+s1f13.Add(root);
+
+// 發送
+secs.SendPrimary(s1f13);</code>
+							</pre>
+							<h3>回覆 (OnDataMessage) 範例</h3>
+							<p>在 WinForm 應用程式中，SECS 事件是在背景執行緒觸發的。為了安全更新 UI，建議使用 <code>Invoke</code> 或 <code>BeginInvoke</code> 回到 UI 執行緒，並使用 Switch-Case 進行訊息分流。</p>
+							<pre>
+								<code class="language-csharp">// 在 Form_Load 或初始化時訂閱事件
+secs.OnDataMessage += Secs_OnDataMessage;
+
+private void Secs_OnDataMessage(TransactionType type, SecsMessage msg)
+{
+    // 切換到 UI 執行緒 (若需要更新 UI)
+    this.Invoke((MethodInvoker)delegate
+    {
+        // 僅處理收到的 Primary 訊息
+        if (type == TransactionType.PrimaryIn)
+        {
+            switch (msg.Stream)
+            {
+                case 1: // Stream 1
+                    switch (msg.Function)
+                    {
+                        case 1: // S1F1 Are You There
+                            // 回覆 S1F2
+                            secs.Standard_S1F2(msg);
+                            break;
+                        case 13: // S1F13 Establish Comm
+                            // 回覆 S1F14
+                            secs.Standard_S1F14(msg, 0);
+                            break;
+                    }
+                    break;
+
+                case 2: // Stream 2
+                    switch (msg.Function)
+                    {
+                        case 41: // S2F41 Host Command
+                            // 自訂處理邏輯
+                            HandleHostCommand(msg);
+                            break;
+                    }
+                    break;
+            }
+        }
+    });
+}</code>
+							</pre>
+						</section>
+<section id="snfx">
+							<h2 class="chapter-heading">3. GEM 標準指令庫</h2>
+							<div class="toc">
+								<h3>本章目錄</h3>
+								<ul>
+									<li>
+										<a href="#section-3-1-snfx">3.1 SnFx 模組概觀</a>
+									</li>
+									<li>
+										<a href="#section-3-2-snfx">3.2 Stream 1: Equipment Status</a>
+									</li>
+									<li>
+										<a href="#section-3-3-snfx">3.3 Stream 2: Equipment Control</a>
+									</li>
+									<li>
+										<a href="#section-3-4-snfx">3.4 Stream 5: Alarm</a>
+									</li>
+									<li>
+										<a href="#section-3-5-snfx">3.5 Stream 6: Data Collection</a>
+									</li>
+									<li>
+										<a href="#section-3-6-snfx">3.6 Stream 9: System Errors</a>
+									</li>
+								</ul>
+							</div>
+							<h2 id="section-3-1-snfx">3.1 SnFx 模組概觀</h2>
+							<p>
+								<code>SnFx</code> 模組封裝了標準 GEM (SEMI E30) 常用功能。開發者可直接呼叫，無需手動組裝 <code>SecsMessage</code>。</p>
+							<p>本章節列出目前 SnFx 已封裝的 Standard API（以 <code>Standard_*</code> 命名）。若某個 SxFy 未在清單中出現，代表目前版本尚未提供對應封裝。</p>
+							<div class="table-container">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>Standard_SxF0(sMsg)</code>
+											</td>
+											<td>SxF0</td>
+											<td>通用 Abort Transaction。收到 Primary 且 W=1 時回覆 Secondary。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>GetS2F23SvidListByTraceId(trid)</code>
+											</td>
+											<td>-</td>
+											<td>查詢某 TRID 最近一次 S2F23 指定的 SVID 清單（供整合端顯示/除錯）。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h2 id="section-3-2-snfx">3.2 Stream 1: Equipment Status</h2>
+							<div class="table-container">
+								<table class="table" id="snfx">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>Standard_S1F1(bool reply = true)</code>
+											</td>
+											<td>S1F1</td>
+											<td>發送 Are You There Request。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F2(sMsg, mdln, softrev)</code>
+											</td>
+											<td>S1F2</td>
+											<td>回覆 S1F1。需傳入原始 sMsg。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F3(svids = null, vidFormat = U4)</code>
+											</td>
+											<td>S1F3</td>
+											<td>
+												<strong>查詢 SVID</strong>。<br/>
+                            - <code>svids</code>: 若傳入 <code>null</code> 或空 List，代表<strong>查詢全部 (List 0)</strong>。<br/>
+                            - <code>vidFormat</code>: 指定送出的 SVID 格式 (預設 U4)。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F4(sMsg)</code>
+											</td>
+											<td>S1F4</td>
+											<td>自動回覆 SVID 值。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F11(svids = null, vidFormat = U4)</code>
+											</td>
+											<td>S1F11</td>
+											<td>
+												<strong>查詢 SVID 定義 (NameList)</strong>。<br/>
+                            - <code>svids</code>: 若傳入 <code>null</code> 或空 List，代表<strong>查詢全部 (List 0)</strong>。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F12(sMsg)</code>
+											</td>
+											<td>S1F12</td>
+											<td>回覆 SVID 定義。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F13(mdln, softrev)</code>
+											</td>
+											<td>S1F13</td>
+											<td>建立通訊請求。<br/>
+                            - <code>mdln</code>: Model Name<br/>
+                            - <code>softrev</code>: Software Revision</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F14(sMsg, commAck, mdln, softrev)</code>
+											</td>
+											<td>S1F14</td>
+											<td>回覆通訊請求。<br/>
+                    - <code>commAck</code>: 0=Accepted, 1=Denied<br/>
+                    - <code>mdln</code>: Equipment Model Name<br/>
+                    - <code>softrev</code>: Equipment Software Revision</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F15()</code>
+											</td>
+											<td>S1F15</td>
+											<td>請求離線。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F16(sMsg)</code>
+											</td>
+											<td>S1F16</td>
+											<td>回覆離線請求。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F17()</code>
+											</td>
+											<td>S1F17</td>
+											<td>請求上線。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S1F18(sMsg, onlAck)</code>
+											</td>
+											<td>S1F18</td>
+											<td>回覆上線請求。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h2 id="section-3-3-snfx">3.3 Stream 2: Equipment Control</h2>
+							<div class="table-container">
+								<table class="table" id="snfx">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>詳細邏輯說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>Standard_S2F13(ecids = null, ecidFormat = U4)</code>
+											</td>
+											<td>S2F13</td>
+											<td>
+												<strong>查詢 ECID</strong>。<br/>
+                            - <code>ecids</code>: 若傳入 <code>null</code> 或空 List，代表<strong>查詢全部 EC (List 0)</strong>。<br/>
+                            - <code>ecidFormat</code>: 指定 ECID 格式 (預設 U4)。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F14(sMsg)</code>
+											</td>
+											<td>S2F14</td>
+											<td>自動回覆 EC 值。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F29(ecids = null, ecidFormat = U4)</code>
+											</td>
+											<td>S2F29</td>
+											<td>
+												<strong>查詢 EC 定義 (NameList)</strong>。<br/>
+                            - <code>ecids</code>: 若傳入 <code>null</code> 或空 List，代表<strong>查詢全部 EC 定義 (List 0)</strong>。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F30(sMsg)</code>
+											</td>
+											<td>S2F30</td>
+											<td>回覆 EC 定義。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F17()</code>
+											</td>
+											<td>S2F17</td>
+											<td>查詢時間。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F18(sMsg)</code>
+											</td>
+											<td>S2F18</td>
+											<td>回覆系統時間。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F23(trid, dsper, totsmp, svids, svidFormat = U4)</code>
+											</td>
+											<td>S2F23</td>
+											<td>
+												<strong>Trace Initialize Send</strong>（Host → Equipment）。<br/>
+- <code>trid</code>: Trace ID (ASCII)。<br/>
+- <code>dsper</code>: 取樣週期（秒，ASCII，例如 <code>"1.0"</code>）。<br/>
+- <code>totsmp</code>: 總取樣次數（U4）。<br/>
+- <code>svids</code>: 指定要送出的 SVID 清單（List）。<br/>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F24(sMsg, isAutoS6F1 = true)</code>
+											</td>
+											<td>S2F24</td>
+											<td>
+回覆 S2F23（TIAACK）。<br/>
+- <code>isAutoS6F1</code>: 若為 True，Equipment 端會依 DSPer 週期自動背景送出 <code>S6F1</code> Trace Data。<br/>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F31(timeStr)</code>
+											</td>
+											<td>S2F31</td>
+											<td>設定時間 (Set Time)。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F32(sMsg)</code>
+											</td>
+											<td>S2F32</td>
+											<td>自動時間同步。<br/>
+                    支援格式：12碼(yyMMddHHmmss), 14碼(yyyyMMddHHmmss), 16碼(yyyyMMddHHmmssff)。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F33_Define(rptDefs, idFormat)</code>
+											</td>
+											<td>S2F33</td>
+											<td>定義 Report。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F33_UnDefine(rptIds, idFormat = U4)</code>
+											</td>
+											<td>S2F33</td>
+											<td>刪除指定 Report（送出空 VID List 代表 Delete）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F33_UnDefineAll()</code>
+											</td>
+											<td>S2F33</td>
+											<td>刪除全部 Report（送出 L,0）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F34(sMsg)</code>
+												<span class="badge">邏輯</span>
+											</td>
+											<td>S2F34</td>
+											<td>
+												<strong>Define Report Acknowledge</strong>
+												<br/>
+                            1. <strong>解析</strong>: 讀取 S2F33 訊息中的 RPTID 與 VID 清單。<br/>
+                            2. <strong>驗證</strong>: 檢查所有請求的 VID 是否存在於 <code>GemConfig.xml</code>。若有任何無效 VID，回覆 DRACK=4 (VID Invalid) 或 DRACK=2。<br/>
+                            3. <strong>更新</strong>: 若驗證通過，自動更新內部 <code>Reports</code> 集合（新增/刪除/修改）。<br/>
+                            4. <strong>回覆</strong>: 送出 S2F34，DRACK=0 (Accepted)。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F35_Link(linkDefs, idFormat)</code>
+											</td>
+											<td>S2F35</td>
+											<td>連結 Event。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F35_UnLink(ceids, idFormat = U4)</code>
+											</td>
+											<td>S2F35</td>
+											<td>解除指定 CEID 的 Report 連結（送出空 RPT List）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F35_UnLinkAll()</code>
+											</td>
+											<td>S2F35</td>
+											<td>解除全部 Event 連結（送出 L,0）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F36(sMsg)</code>
+												<span class="badge">邏輯</span>
+											</td>
+											<td>S2F36</td>
+											<td>
+												<strong>Link Event Ack</strong>
+												<br/>
+                            1. <strong>解析</strong>: 讀取 S2F35 中的 CEID 與 RPTID。<br/>
+                            2. <strong>驗證</strong>: 
+                               - 檢查 CEID 是否存在 (若否則回覆 LRACK=3)。<br/>
+                               - 檢查 RPTID 是否已定義 (若否則回覆 LRACK=4)。<br/>
+                            3. <strong>更新</strong>: 若驗證通過，更新內部 <code>CEs</code> 集合的 Report 連結。<br/>
+                            4. <strong>回覆</strong>: 送出 S2F36，LRACK=0 (Accepted)。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F37(enable, ceids, idFormat)</code>
+											</td>
+											<td>S2F37</td>
+											<td>啟用/停用 Event。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S2F38(sMsg)</code>
+												<span class="badge">邏輯</span>
+											</td>
+											<td>S2F38</td>
+											<td>
+												<strong>Enable Event Ack</strong>
+												<br/>
+                            1. <strong>解析</strong>: 讀取 S2F37 中的 CEED (Enable/Disable) 與 CEID 清單。<br/>
+                            2. <strong>驗證</strong>: 檢查 CEID 是否存在於 <code>GemConfig.xml</code>。若有任何 CEID 不存在，回覆 ERACK=1 (Denied)。<br/>
+                            3. <strong>更新</strong>: 若驗證通過，將對應 CE 的 <code>Enable</code> 屬性設為 True 或 False。<br/>
+                            4. <strong>回覆</strong>: 送出 S2F38，ERACK=0 (Accepted)。
+                        </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h2 id="section-3-4-snfx">3.4 Stream 5: Alarm</h2>
+							<div class="table-container">
+								<table class="table" id="snfx">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>詳細邏輯說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>SendAlarm(alid, isSet)</code>
+												<br/>
+												<code>Standard_S5F1(...)</code>
+											</td>
+											<td>S5F1</td>
+											<td>
+												<strong>發送警報報告</strong>
+												<br/>
+                            1. <strong>檢查</strong>: 該 ALID 是否存在且 Enabled。<br/>
+                            2. <strong>計算 ALCD</strong>: 讀取 Config 中的 <code>ALCD</code> (Base Value)。<br/>
+                               - 若 <code>isSet = true</code> (發生): <code>ALCD |= 0x80</code> (Bit 7 設為 1)。<br/>
+                               - 若 <code>isSet = false</code> (解除): <code>ALCD &amp;= 0x7F</code> (Bit 7 設為 0)。<br/>
+                            3. <strong>發送</strong>: 組裝 S5F1 (L,3 ALCD, ALID, ALTX) 並發送。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F2(sMsg)</code>
+											</td>
+											<td>S5F2</td>
+											<td>回覆 S5F1（ACKC5=0 Accepted）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F3(alid, enable, idFormat)</code>
+											</td>
+											<td>S5F3</td>
+											<td>
+												<strong>啟用/停用警報請求</strong>
+												<br/>
+                            - <code>alid</code>: 警報 ID。<br/>
+                            - <code>enable</code>: 
+                              - <code>true</code>: 發送 ALED=0x80 (128) 代表 Enable。<br/>
+                              - <code>false</code>: 發送 ALED=0x00 (0) 代表 Disable。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F4(sMsg)</code>
+											</td>
+											<td>S5F4</td>
+											<td>回覆 S5F3。自動更新內部 Alarm Enable 屬性。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F5(alids = null, idFormat = U4)</code>
+											</td>
+											<td>S5F5</td>
+											<td>
+												<strong>查詢警報 (List Alarm)</strong>。<br/>
+                            - <code>alids</code>: 若傳入 <code>null</code> 或空 List，代表<strong>查詢全部警報 (List 0)</strong>。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F6(sMsg)</code>
+											</td>
+											<td>S5F6</td>
+											<td>回覆警報列表。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F7()</code>
+											</td>
+											<td>S5F7</td>
+											<td>查詢「已啟用」警報。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S5F8(sMsg)</code>
+											</td>
+											<td>S5F8</td>
+											<td>回覆已啟用警報。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h2 id="section-3-5-snfx">3.5 Stream 6: Data Collection</h2>
+							<div class="table-container">
+								<table class="table" id="snfx">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>詳細邏輯說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>Standard_S6F2(sMsg)</code>
+											</td>
+											<td>S6F2</td>
+											<td>回覆 S6F1（Trace Data Ack）。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SendEvent(ceid)</code>
+												<br/>
+												<code>Standard_S6F11(...)</code>
+											</td>
+											<td>S6F11</td>
+											<td>
+												<strong>發送事件報告 (Event Report)</strong>
+												<br/>
+                            呼叫此方法時，會執行以下自動化流程：<br/>
+                            1. <strong>CEID 檢查</strong>: 確認 <code>GemConfig.xml</code> 中存在該 <code>ceid</code> 且已啟用。<br/>
+                            2. <strong>Report 收集</strong>: 找出該 CEID 連結了哪些 Report (RPTID)。<br/>
+                            3. <strong>VID 收集</strong>: 找出每個 Report 包含哪些 Variable (VID)。<br/>
+                            4. <strong>數值讀取</strong>: 依序讀取這些 VID 的<strong>當前值 (Current Value)</strong>。<br/>
+                            5. <strong>發送</strong>: 依照 GEM S6F11 格式 (L,3 DATAID, CEID, RPTLIST) 組裝並發送。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F12(sMsg)</code>
+											</td>
+											<td>S6F12</td>
+											<td>回覆 Event Ack。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F15(ceid, idFormat)</code>
+											</td>
+											<td>S6F15</td>
+											<td>
+												<strong>主動查詢 Event</strong>。<br/>
+												<code>idFormat</code> 可指定 CEID 格式 (U4, U2, ASCII)。<br/>
+												<code>ceid</code>: 指定要查詢的事件 ID。
+                        </td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F16(sMsg)</code>
+											</td>
+											<td>S6F16</td>
+											<td>回覆 Event Report Data。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F17(ceid)</code>
+											</td>
+											<td>S6F17</td>
+											<td>請求 Annotated Event。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F18(sMsg)</code>
+											</td>
+											<td>S6F18</td>
+											<td>回覆 Annotated Data。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F19(rptid)</code>
+											</td>
+											<td>S6F19</td>
+											<td>請求 Individual Report。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>Standard_S6F20(sMsg)</code>
+											</td>
+											<td>S6F20</td>
+											<td>回覆 Report Data。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h2 id="section-3-6-snfx">3.6 Stream 9: System Errors (S9Fx)</h2>
+							<div class="table-container">
+								<table class="table" id="snfx">
+									<thead>
+										<tr>
+											<th>API 方法</th>
+											<th>對應 SxFy</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>SendS9F1(SecsMessage sMsg)</code>
+											</td>
+											<td>S9F1</td>
+											<td>Unrecognized Device ID。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SendS9F3(SecsMessage sMsg)</code>
+											</td>
+											<td>S9F3</td>
+											<td>Unrecognized Stream Type。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SendS9F5(SecsMessage sMsg)</code>
+											</td>
+											<td>S9F5</td>
+											<td>Unrecognized Function Type。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SendS9F7(SecsMessage sMsg)</code>
+											</td>
+											<td>S9F7</td>
+											<td>Illegal Data。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>SendS9F9(SecsMessage sMsg)</code>
+											</td>
+											<td>S9F9</td>
+											<td>Transaction Timer Timeout。</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</section>
+<section id="gem">
+							<h2 class="chapter-heading">4. GEM 資料模型與控制狀態</h2>
+							<div class="toc">
+								<h3>本章目錄</h3>
+								<ul>
+									<li>
+										<a href="#section-4-1-gem">4.1 GEM 資料存取 (VID/EC)</a>
+									</li>
+									<li>
+										<a href="#section-4-2-gem">4.2 GEM 控制狀態管理 (Control State)</a>
+									</li>
+								</ul>
+							</div>
+							<h2 id="section-4-1-gem">4.1 GEM 資料存取 (VID/EC)</h2>
+							<p>FluxSECS 在記憶體中維護了一份完整的 GEM 資料模型 (載入自 <code>GemConfig.xml</code>)。應用程式應透過 API 更新這些資料，以確保自動回覆功能 (如 S1F4, S2F14, S6F11) 能取得正確數值。</p>
+							<h3>VID (變數) 存取</h3>
+							<pre>
+								<code class="language-csharp">// 1. 設定單一字串值 (適合大多數純量 VID)
+secs.SetVidValue("1001", "RUNNING");
+
+// 2. 讀取單一字串值
+string status = secs.GetVidValue("1001");
+
+// 3. 設定複合結構值 (適合 List 型態的 VID)
+var items = new SecsItem[] 
+{ 
+    new SecsItem(SecsFormat.ASCII, "SubItem1"), 
+    new SecsItem(SecsFormat.U4, "100") 
+};
+secs.SetVidValues("2001", items);
+
+// 4. 讀取複合結構值
+SecsItem[] values = secs.GetVidValues("2001");</code>
+							</pre>
+							<h3>EC (設備常數) 存取</h3>
+							<p>用於讀寫設備常數 (ECID)。</p>
+							<pre>
+								<code class="language-csharp">// 1. 設定單一字串值
+secs.SetEcValue("2001", "500");
+
+// 2. 讀取單一字串值
+string timeout = secs.GetEcValue("2001");
+
+// 3. 設定複合結構值
+var ecItems = new SecsItem[] { new SecsItem(SecsFormat.U4, "123") };
+secs.SetEcValues("3001", ecItems);
+
+// 4. 讀取複合結構值
+SecsItem[] ecValues = secs.GetEcValues("3001");</code>
+							</pre>
+							<h2 id="section-4-2-gem">4.2 GEM 控制狀態管理</h2>
+							<p>控制狀態 (Control State) 是 GEM 標準中定義設備操作權限的核心狀態機。</p>
+							<h3>狀態定義 (eControlState)</h3>
+							<div class="table-container">
+								<table class="table" id="gem">
+									<thead>
+										<tr>
+											<th>列舉值</th>
+											<th>說明</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<code>EqpOffLine</code>
+											</td>
+											<td>設備離線。</td>
+										</tr>
+										<tr>
+											<td>
+												<code>AttemptOnLine</code>
+											</td>
+											<td>
+												<strong>嘗試連線。</strong>
+											</tr>
+											<tr>
+												<td>
+													<code>HostOffLine</code>
+												</td>
+												<td>Host 離線狀態。</td>
+											</tr>
+											<tr>
+												<td>
+													<code>OnLineLocal</code>
+												</td>
+												<td>連線中，但僅允許本地操作。</td>
+											</tr>
+											<tr>
+												<td>
+													<code>OnLineRemote</code>
+												</td>
+												<td>連線中，允許 Host 進行遠端控制。</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<h3>狀態判定矩陣</h3>
+								<p>FluxSECS 內部透過以下幾個布林旗標的組合，動態計算出當前的 <code>ControlState</code>：</p>
+								<p>標準 SEMI 的情況 FluxSECS 會自己計算，若非標準請用以下提供的 API 轉換。</p>
+								<h3>狀態轉換機制</h3>
+								<h4>自動轉換 (收到訊息時)</h4>
+								<ul>
+									<li>
+										<strong>S1F13 (Establish Comm)</strong>: 連線建立完成。</li>
+									<li>
+										<strong>S1F15 (Req Offline)</strong>: <code>HostOnLine = false</code>。</li>
+									<li>
+										<strong>S1F17 (Req Online)</strong>: 
+                    <ul>
+											<li>設定 <code>HostOnLine = true</code>。</li>
+											<li>
+												<strong>關鍵邏輯</strong>：此時設備將根據 <code>GemConfig.xml</code> 中的 <code>&lt;DefaultOnlineState&gt;</code> 設定，自動決定進入 <code>OnLineLocal</code> 或 <code>OnLineRemote</code>。
+                            <br/>(0 = Local, 1 = Remote)。
+                        </li>
+										</ul>
+									</li>
+								</ul>
+								<h4>手動轉換 (API)</h4>
+								<div class="table-container">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>API 方法</th>
+												<th>用途</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<code>SetCommunication(bool)</code>
+												</td>
+												<td>設定 OnLine (S1F13 狀態)。</td>
+											</tr>
+											<tr>
+												<td>
+													<code>SetHostOnLine(bool)</code>
+												</td>
+												<td>設定 HostOnLine (S1F17 狀態)。</td>
+											</tr>
+											<tr>
+												<td>
+													<code>SetRemote(bool)</code> / <code>SetLocal(bool)</code>
+												</td>
+												<td>切換 Local/Remote。</td>
+											</tr>
+											<tr>
+												<td>
+													<code>SetEQPOnLine(bool)</code>
+												</td>
+												<td>設備主動切換離線/上線。</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<h3>事件監聽</h3>
+								<pre>
+									<code class="language-csharp">secs.ControlStateChanged += (state) =&gt; 
+{
+    Console.WriteLine($"GEM 控制狀態變更: {state}");
+    if (state == eControlState.OnLineRemote)
+    {
+        // 開放遠端控制功能
+    }
+};</code>
+								</pre>
+							</section>
+<section id="diag">
+								<h2 class="chapter-heading">5. 診斷</h2>
+								<div class="toc">
+									<h3>本章目錄</h3>
+									<ul>
+										<li>
+											<a href="#section-5-1-diag">5.1 日誌系統</a>
+										</li>
+										<li>
+											<a href="#section-5-2-diag">5.2 異常處理 (S9 Management)</a>
+										</li>
+									</ul>
+								</div>
+								<h2 id="section-5-1-diag">5.1 日誌系統 (Logging)</h2>
+								<p>FluxSECS 具備獨立 Log Thread，確保大量訊息記錄不會阻塞通訊處理。</p>
+								<h3>兩層級日誌</h3>
+								<div class="table-container">
+									<table class="table log-table">
+										<thead>
+											<tr>
+												<th>層級</th>
+												<th>內容</th>
+												<th>用途</th>
+												<th>觸發條件</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<strong>Monitor</strong>
+													<br/>(監控層)</td>
+												<td>Hex 原始封包 (TX/RX)、Header 解析、連線狀態變更。</td>
+												<td>確認網路連線是否正常、封包是否有送出。</td>
+												<td>訂閱 <code>Monitor</code> 事件。</td>
+											</tr>
+											<tr>
+												<td>
+													<strong>Trace</strong>
+													<br/>(除錯層)</td>
+												<td>SML 結構內容、Timer 啟動/停止、內部邏輯流程、錯誤訊息。</td>
+												<td>開發階段除錯、分析 GEM 邏輯問題、S9F7 原因分析。</td>
+												<td>訂閱 <code>Trace</code> 事件 且 <code>DebugMode=true</code>。</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<h2 id="section-5-2-diag">5.2 異常處理 (S9 Management)</h2>
+								<p>當通訊發生異常時，FluxSECS 會依據 <code>GemConfig.xml</code> 的設定自動發送 System Errors (Stream 9)。</p>
+								<div class="table-container">
+									<table class="table s9-table">
+										<thead>
+											<tr>
+												<th>Function</th>
+												<th>名稱</th>
+												<th>觸發條件</th>
+												<th>開關設定</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>S9F1</td>
+												<td>Unrecognized Device ID</td>
+												<td>收到的 Device ID 與 <code>Connection.xml</code> 設定不符。</td>
+												<td>
+													<code>AutoS9F1</code>
+												</td>
+											</tr>
+											<tr>
+												<td>S9F3</td>
+												<td>Unrecognized Stream Type</td>
+												<td>收到的 Stream 未在 <code>Standard.xml</code> 中定義。</td>
+												<td>
+													<code>AutoS9F3</code>
+												</td>
+											</tr>
+											<tr>
+												<td>S9F5</td>
+												<td>Unrecognized Function Type</td>
+												<td>收到的 Function 未在 <code>Standard.xml</code> 中定義。</td>
+												<td>
+													<code>AutoS9F5</code>
+												</td>
+											</tr>
+											<tr>
+												<td>S9F7</td>
+												<td>Illegal Data</td>
+												<td>訊息結構、長度或格式不符合 <code>Standard.xml</code> 的定義。</td>
+												<td>
+													<code>AutoS9F7</code>
+												</td>
+											</tr>
+											<tr>
+												<td>S9F9</td>
+												<td>Transaction Timer Timeout</td>
+												<td>發送 Primary 後，在 T3 時間內未收到 Reply。</td>
+												<td>
+													<code>AutoS9F9</code>
+												</td>
+											</tr>
+											<tr>
+										</tbody>
+									</table>
+								</div>
+							</section>
+						</div>
+					</div>
+				</main>
+				<footer class="footer">
+					<div class="container footer-stack">
+						<div class="footer-brand">FluxSECS™</div>
+						<div class="footer-copy">© 2026 FluxSECS. All rights reserved.</div>
+					</div>
+				</footer>
+			</div>
+			<script src="./assets/site.js"></script>
+			<script>(function(){const links=Array.from(document.querySelectorAll('.tech-sidebar .nav-links a[href^="#"]'));const sections=links.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);const scroller=document.querySelector('.tech-main .main-content');if(!links.length||!sections.length||!scroller)return;const syncActive=()=>{const offset=140;let current=sections[0];for(const section of sections){const top=section.getBoundingClientRect().top-scroller.getBoundingClientRect().top;if(top-offset<=0)current=section;}links.forEach(link=>link.classList.toggle('active',link.getAttribute('href')==='#'+current.id));};links.forEach(link=>{link.addEventListener('click',function(event){const id=link.getAttribute('href');if(!id||id==='#')return;const target=document.querySelector(id);if(!target)return;event.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'',id);});});scroller.addEventListener('scroll',syncActive,{passive:true});window.addEventListener('resize',syncActive,{passive:true});syncActive();})();</script>
+			</body>
+		</html>
