@@ -8,7 +8,7 @@ function triggerHiddenDownload(url){
 }
 
 function downloadSimalutor(){
-    triggerHiddenDownload("./FluxSECS Simalutor.7z");
+    triggerHiddenDownload("https://github.com/yoyo513/yoyo513.github.io/releases/download/Simlutor/FluxSECS.Simalutor.7z");
 }
 
 function downloadSDK(){
