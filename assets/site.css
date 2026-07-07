@@ -1288,3 +1288,342 @@ body {
   color:inherit;
 }
 .gs-step:visited{color:inherit;}
+
+/* V3.0.9 mobile layout fix: keep desktop layout unchanged */
+@media (max-width: 980px) {
+  .site-header .nav-links {
+    display: none !important;
+  }
+
+  .site-header .navbar {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .site-header .brand-wrap {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .site-header .header-actions {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .technical-manual-page .tech-sidebar {
+    position: sticky !important;
+    top: var(--header-h);
+    z-index: 900;
+    width: auto;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    padding: 10px 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--panel-2) 92%, transparent);
+    backdrop-filter: blur(16px) saturate(135%);
+    -webkit-backdrop-filter: blur(16px) saturate(135%);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-gutter: auto;
+  }
+
+  [data-theme="light"] .technical-manual-page .tech-sidebar {
+    background: rgba(250,253,255,.88);
+  }
+
+  .technical-manual-page .tech-sidebar .nav-links {
+    display: flex !important;
+    grid-template-columns: none;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 0 2px;
+    margin: 0;
+  }
+
+  .technical-manual-page .tech-sidebar .nav-links li {
+    flex: 0 0 auto;
+  }
+
+  .technical-manual-page .tech-sidebar .nav-links a {
+    white-space: nowrap;
+    padding: 9px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .technical-manual-page .tech-main {
+    margin-left: 0;
+    padding: 14px 14px 24px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .technical-manual-page .tech-main .main-content {
+    height: auto;
+    max-width: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-h: 64px;
+  }
+
+  body {
+    padding-top: var(--header-h);
+    padding-bottom: 82px;
+  }
+
+  .container {
+    width: min(var(--max), calc(100% - 28px));
+  }
+
+  .logo-svg {
+    width: 176px;
+    max-width: calc(100vw - 104px);
+  }
+
+  .theme-toggle {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    font-size: 17px;
+  }
+
+  body.technical-manual-page,
+  html:has(body.technical-manual-page) {
+    height: auto;
+    min-height: 100%;
+    overflow: auto;
+  }
+
+  .technical-manual-page .tech-shell {
+    height: auto;
+    overflow: visible;
+  }
+
+  .technical-manual-page .tech-sidebar {
+    padding: 9px 10px;
+  }
+
+  .technical-manual-page .tech-sidebar .nav-links a {
+    padding: 8px 11px;
+    font-size: 13px;
+  }
+
+  .technical-manual-page .tech-main {
+    padding: 12px 10px 22px;
+  }
+
+  .technical-manual-page section {
+    padding: 20px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .technical-manual-page h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .technical-manual-page h1 span[style] {
+    margin-left: 0 !important;
+    font-size: .58em !important;
+  }
+
+  .technical-manual-page h2 {
+    font-size: 23px;
+    margin: 28px 0 14px;
+  }
+
+  .technical-manual-page h3 {
+    font-size: 18px;
+  }
+
+  .technical-manual-page p,
+  .technical-manual-page li {
+    line-height: 1.7;
+  }
+
+  .technical-manual-page .chapter-list {
+    gap: 12px;
+  }
+
+  .technical-manual-page pre,
+  .technical-manual-page .logic-box,
+  .technical-manual-page .ascii-art {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .technical-manual-page .download-cta {
+    padding: 1.25rem 1rem;
+  }
+
+  .technical-manual-page .download-cta-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+
+/* V3.0.11 table rendering fix: prevent API signatures from overflowing table cells */
+.technical-manual-page .table-container,
+.technical-manual-page .table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.technical-manual-page th,
+.technical-manual-page td {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.technical-manual-page td code,
+.technical-manual-page th code {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-height: 1.45;
+  vertical-align: top;
+}
+
+.technical-manual-page td code + .badge {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 8px 0 0 0;
+  vertical-align: top;
+}
+
+.technical-manual-page td code + br + .badge {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 8px 0 0 0;
+  vertical-align: top;
+}
+
+@media (max-width: 640px) {
+  .technical-manual-page table {
+    min-width: 560px;
+  }
+
+  .technical-manual-page th,
+  .technical-manual-page td {
+    padding: 10px 12px;
+  }
+
+  .technical-manual-page td code,
+  .technical-manual-page th code {
+    font-size: 12px;
+  }
+}
+
+
+/* V3.0.12 mobile table layout fix */
+@media (max-width: 640px) {
+  .technical-manual-page .table-container,
+  .technical-manual-page .table-responsive {
+    overflow-x: visible;
+  }
+
+  .technical-manual-page table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+  }
+
+  .technical-manual-page table thead {
+    display: none;
+  }
+
+  .technical-manual-page table tbody,
+  .technical-manual-page table tr,
+  .technical-manual-page table td {
+    display: block;
+    width: 100%;
+  }
+
+  .technical-manual-page table tr {
+    margin: 0 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(148,163,184,.055);
+  }
+
+  .technical-manual-page table tr:nth-child(even) {
+    background: rgba(148,163,184,.08);
+  }
+
+  .technical-manual-page table td {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 12px;
+  }
+
+  .technical-manual-page table td:last-child {
+    border-bottom: 0;
+  }
+
+  .technical-manual-page table td::before {
+    content: attr(data-label);
+    display: block;
+    margin: 0 0 6px;
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .technical-manual-page table td:empty::before {
+    display: none;
+  }
+}
+
+/* V3.0.13 desktop table safety: keep normal columns readable.
+   Long API signatures may wrap inside their own cell, but description columns must not force nowrap. */
+@media (min-width: 641px) {
+  .technical-manual-page table {
+    table-layout: auto;
+  }
+
+  .technical-manual-page .table-container,
+  .technical-manual-page .table-responsive {
+    overflow-x: auto;
+  }
+
+  .technical-manual-page td,
+  .technical-manual-page th {
+    min-width: 0;
+  }
+
+  .technical-manual-page td[data-label="欄位"],
+  .technical-manual-page td[data-label="API 方法"],
+  .technical-manual-page td[data-label="新增"],
+  .technical-manual-page td[data-label="取得/讀取"],
+  .technical-manual-page td[data-label="讀取既有物件"],
+  .technical-manual-page td[data-label="移除"],
+  .technical-manual-page td[data-label="更新/寫入"],
+  .technical-manual-page td[data-label="取得數值"] {
+    white-space: normal;
+  }
+}
