@@ -441,7 +441,7 @@ pre { margin: 0; font: 14px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, 
 .hero-grid{grid-template-columns:minmax(0,780px);justify-content:start;}
 .compact-hero .hero-grid{align-items:start;}
 .compact-hero h1{max-width:760px;}
-.compact-hero p{max-width:nono;}
+.compact-hero p{max-width:none;}
 @media (max-width:980px){.hero-grid{grid-template-columns:1fr;}}
 
 
@@ -1625,5 +1625,783 @@ body {
   .technical-manual-page td[data-label="更新/寫入"],
   .technical-manual-page td[data-label="取得數值"] {
     white-space: normal;
+  }
+}
+
+/* V14 product-oriented engineering homepage, keeping the existing visual language */
+.product-hero{padding:64px 0 42px;}
+.product-hero-grid{
+  grid-template-columns:minmax(0, 1fr) minmax(340px, 430px);
+  gap:34px;
+  align-items:center;
+  justify-content:space-between;
+}
+.product-hero-copy{min-width:0;}
+.product-hero .eyebrow{margin-bottom:14px;}
+.product-hero h1{
+  max-width:920px;
+  margin:16px 0 14px;
+  font-size:clamp(42px, 5.4vw, 72px);
+}
+.product-hero h1 .line-2{
+  color:var(--brand-2);
+  text-shadow:0 0 26px rgba(80,198,255,.16);
+}
+.product-hero .hero-subtitle{
+  max-width:820px;
+  font-size:18px;
+  line-height:1.75;
+}
+.product-support{gap:10px 12px;margin-top:22px;}
+.product-panel{
+  width:100%;
+  max-width:430px;
+  justify-self:end;
+  position:relative;
+  overflow:hidden;
+}
+.product-panel::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  pointer-events:none;
+  background:radial-gradient(circle at 20% 0%, rgba(80,198,255,.16), transparent 42%);
+}
+.status-dot{
+  color:var(--brand-2);
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+.product-map{
+  position:relative;
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+.product-node{
+  border:1px solid rgba(90,180,255,.20);
+  border-radius:18px;
+  padding:16px;
+  background:linear-gradient(180deg, rgba(148,163,184,.10), rgba(148,163,184,.045));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.product-node strong{display:block;margin-bottom:5px;font:700 18px/1.2 "Chakra Petch", sans-serif;color:var(--text);}
+.product-node small{color:var(--muted);line-height:1.45;}
+.primary-node{border-color:rgba(80,198,255,.34);background:linear-gradient(135deg, rgba(80,198,255,.14), rgba(148,163,184,.06));}
+.wide-node{background:linear-gradient(135deg, rgba(47,155,255,.12), rgba(80,198,255,.055));}
+.product-bridge{display:grid;place-items:center;color:var(--brand-2);font-weight:800;font-size:18px;line-height:1;}
+.mini-kv-list{
+  position:relative;
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.mini-kv-list div{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:11px 0;
+  border-top:1px solid var(--line);
+}
+.mini-kv-list span{color:var(--muted);font-size:13px;}
+.mini-kv-list strong{font-size:13px;text-align:right;color:var(--text);}
+.icon-pill{
+  font:700 13px/1 "Chakra Petch", sans-serif;
+  letter-spacing:.02em;
+}
+.feature-grid-enhanced .card p{min-height:84px;}
+.product-stack-banner{align-items:start;}
+.stack-copy h2{font-size:clamp(32px, 4vw, 46px);}
+.stack-data-list .data-row strong{text-align:right;}
+.workflow-grid .workflow-step{
+  grid-template-columns:52px 1fr;
+  min-height:142px;
+  align-items:start;
+  text-decoration:none;
+  color:inherit;
+}
+.workflow-grid .workflow-step .gs-step-body p{font-size:14px;line-height:1.55;}
+.workflow-grid .workflow-step::after{display:none;}
+.resource-card{min-height:112px;align-items:center;}
+.resource-card > span{font-size:24px;color:var(--brand-2);}
+[data-theme="light"] .product-panel::before{background:radial-gradient(circle at 20% 0%, rgba(15,138,232,.13), transparent 42%);}
+[data-theme="light"] .product-node{background:linear-gradient(180deg, rgba(255,255,255,.68), rgba(244,249,255,.52));border-color:rgba(96,165,250,.18);}
+[data-theme="light"] .primary-node{border-color:rgba(15,138,232,.28);}
+@media (max-width: 980px){
+  .product-hero{padding:50px 0 30px;}
+  .product-hero-grid{grid-template-columns:1fr;gap:24px;}
+  .product-panel{max-width:none;justify-self:stretch;}
+  .product-hero h1{font-size:clamp(38px, 10vw, 58px);}
+  .product-hero .hero-subtitle{font-size:17px;}
+  .feature-grid-enhanced .card p{min-height:0;}
+  .workflow-grid .workflow-step{min-height:auto;}
+  .stack-data-list .data-row{align-items:flex-start;}
+  .stack-data-list .data-row strong{text-align:left;}
+}
+@media (max-width: 640px){
+  .product-hero .hero-actions{gap:10px;}
+  .product-hero .btn{width:100%;}
+  .mini-kv-list div{display:grid;gap:4px;}
+  .mini-kv-list strong{text-align:left;}
+  .resource-card{min-height:auto;}
+}
+
+/* V3.1 Engineering brand homepage refresh */
+.brand-hero {
+  position: relative;
+  padding: 74px 0 48px;
+  overflow: hidden;
+}
+.brand-hero::before {
+  content: "";
+  position: absolute;
+  inset: 18px max(20px, calc((100vw - var(--max)) / 2)) auto;
+  height: 420px;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(80,198,255,.09) 1px, transparent 1px),
+    linear-gradient(rgba(80,198,255,.07) 1px, transparent 1px),
+    radial-gradient(circle at 25% 16%, rgba(93,203,255,.24), transparent 0 24%),
+    radial-gradient(circle at 78% 18%, rgba(91,140,255,.22), transparent 0 23%);
+  background-size: 42px 42px, 42px 42px, auto, auto;
+  border-radius: 34px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,.78), transparent 88%);
+  opacity: .78;
+  z-index: -1;
+}
+.brand-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+  gap: 34px;
+  align-items: center;
+}
+.brand-hero-copy {
+  min-width: 0;
+}
+.brand-hero h1 {
+  margin: 16px 0 16px;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: clamp(42px, 5.8vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+.brand-hero h1 .line-2 {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--brand-2);
+  letter-spacing: -.025em;
+}
+.brand-lead {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.78;
+}
+.brand-actions {
+  margin-top: 28px;
+}
+.brand-chip-row {
+  gap: 10px;
+  margin-top: 20px;
+}
+.brand-chip-row .support-chip {
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.brand-console {
+  position: relative;
+  padding: 20px;
+  border-radius: 28px;
+  border: 1px solid rgba(90,180,255,.22);
+  background:
+    linear-gradient(180deg, rgba(9,18,36,.88), rgba(7,16,32,.74)),
+    radial-gradient(circle at 50% 0%, rgba(80,198,255,.18), transparent 52%);
+  box-shadow: var(--shadow), var(--glow-soft), inset 0 1px 0 rgba(255,255,255,.06);
+  overflow: hidden;
+}
+.brand-console::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), transparent 34%, rgba(80,198,255,.08));
+  opacity: .55;
+}
+.console-topbar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.console-topbar strong {
+  margin-left: auto;
+  color: var(--text);
+  font-family: "Chakra Petch", sans-serif;
+  letter-spacing: .03em;
+}
+.console-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(80,198,255,.72);
+  box-shadow: 0 0 16px rgba(80,198,255,.32);
+}
+.console-dot:nth-child(2) { background: rgba(139,228,255,.66); }
+.console-dot:nth-child(3) { background: rgba(91,140,255,.66); }
+.console-status-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.console-status-card {
+  min-width: 0;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(148,163,184,.075);
+}
+.console-status-card span,
+.console-status-card small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.console-status-card strong {
+  display: block;
+  margin: 6px 0 5px;
+  color: var(--text);
+  font: 700 24px/1 "Chakra Petch", sans-serif;
+}
+.console-flow {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  display: grid;
+  gap: 9px;
+}
+.console-layer {
+  padding: 13px 15px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(80,198,255,.09), rgba(148,163,184,.06));
+  color: var(--text);
+  font-weight: 800;
+  text-align: center;
+}
+.console-layer.accent {
+  border-color: rgba(80,198,255,.36);
+  background: linear-gradient(135deg, rgba(80,198,255,.18), rgba(91,140,255,.12));
+  color: var(--brand-2);
+}
+.console-arrow {
+  text-align: center;
+  color: var(--brand);
+  line-height: 1;
+  font-weight: 800;
+}
+.brand-section {
+  padding: 38px 0;
+}
+.brand-section-head {
+  max-width: 760px;
+}
+.brand-feature-grid .icon-pill {
+  font: 800 16px/1 "Chakra Petch", sans-serif;
+}
+.brand-feature-card h3,
+.brand-use-card h3 {
+  font-family: "Chakra Petch", sans-serif;
+  letter-spacing: -.01em;
+}
+.brand-product-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr);
+  gap: 22px;
+  align-items: stretch;
+  padding: 28px;
+  border-radius: 30px;
+  border: 1px solid rgba(56,189,248,.22);
+  background:
+    linear-gradient(135deg, rgba(20,120,215,.20), rgba(9,22,46,.10)),
+    color-mix(in srgb, var(--panel) 92%, transparent);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.brand-product-copy h2,
+.brand-final-cta h2 {
+  margin: 8px 0 12px;
+  font: 700 clamp(30px, 4vw, 42px)/1.13 "Chakra Petch", sans-serif;
+  letter-spacing: -.025em;
+}
+.brand-product-copy p,
+.brand-final-cta p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 16px;
+}
+.brand-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.brand-points div {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(148,163,184,.075);
+}
+.brand-points strong,
+.brand-points span {
+  display: block;
+}
+.brand-points strong {
+  color: var(--brand-2);
+  font-family: "Chakra Petch", sans-serif;
+  margin-bottom: 6px;
+}
+.brand-points span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.brand-product-map {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: rgba(4,10,22,.28);
+  align-content: center;
+}
+.map-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.map-node {
+  padding: 15px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(80,198,255,.20);
+  background: rgba(80,198,255,.08);
+  color: var(--text);
+  text-align: center;
+  font-weight: 800;
+}
+.map-node.primary {
+  background: linear-gradient(135deg, rgba(80,198,255,.24), rgba(91,140,255,.14));
+  color: var(--brand-2);
+  font: 800 24px/1 "Chakra Petch", sans-serif;
+}
+.map-note {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+.brand-use-card {
+  min-height: 162px;
+}
+.brand-start-panel .step {
+  grid-template-columns: 52px 1fr auto;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.brand-start-panel .step:hover {
+  transform: translateY(-2px);
+  border-color: rgba(95,187,255,.28);
+  box-shadow: 0 18px 42px rgba(1,6,18,.20);
+}
+.brand-final-section {
+  padding-bottom: 62px;
+}
+.brand-final-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 30px;
+  border: 1px solid rgba(56,189,248,.22);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(80,198,255,.16), transparent 0 32%),
+    linear-gradient(135deg, color-mix(in srgb, var(--panel) 96%, transparent), color-mix(in srgb, var(--panel-2) 92%, transparent));
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.brand-final-actions {
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+[data-theme="light"] .brand-console,
+[data-theme="light"] .brand-product-panel,
+[data-theme="light"] .brand-product-map,
+[data-theme="light"] .brand-final-cta {
+  background: linear-gradient(180deg, rgba(255,255,255,.74), rgba(243,248,255,.58));
+  border-color: rgba(96,165,250,.18);
+  box-shadow: 0 24px 56px rgba(24,54,98,.10), inset 0 1px 0 rgba(255,255,255,.96);
+}
+[data-theme="light"] .console-status-card,
+[data-theme="light"] .console-layer,
+[data-theme="light"] .brand-points div,
+[data-theme="light"] .map-node {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(96,165,250,.16);
+}
+@media (max-width: 980px) {
+  .brand-hero-grid,
+  .brand-product-panel {
+    grid-template-columns: 1fr;
+  }
+  .brand-console,
+  .brand-product-map {
+    max-width: 720px;
+  }
+  .brand-final-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .brand-final-actions {
+    width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .brand-hero {
+    padding: 44px 0 28px;
+  }
+  .brand-hero::before {
+    inset: 8px 14px auto;
+    height: 520px;
+  }
+  .brand-hero h1 {
+    font-size: clamp(34px, 11vw, 48px);
+  }
+  .brand-hero h1 .line-2 {
+    font-size: clamp(23px, 7vw, 32px);
+  }
+  .brand-lead {
+    font-size: 16px;
+  }
+  .brand-actions .btn,
+  .brand-final-actions .btn {
+    width: 100%;
+  }
+  .console-status-grid,
+  .brand-points,
+  .map-row {
+    grid-template-columns: 1fr;
+  }
+  .brand-console,
+  .brand-product-panel,
+  .brand-final-cta {
+    border-radius: 22px;
+    padding: 18px;
+  }
+  .brand-section {
+    padding: 26px 0;
+  }
+  .brand-start-panel .step {
+    grid-template-columns: 46px 1fr;
+  }
+  .brand-start-panel .gs-step-arrow {
+    display: none;
+  }
+}
+.home-page .icon-pill{
+  width:auto;
+  min-width:44px;
+  padding:0 10px;
+  white-space:nowrap;
+  overflow:visible;
+}
+
+/* Simple product home (v17): keep the original clean homepage style. */
+.simple-home-hero { padding-top: 70px; padding-bottom: 54px; }
+.simple-home-hero .container { max-width: var(--max); }
+.simple-home-hero h1 {
+  margin: 0 0 18px;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: clamp(58px, 8vw, 92px);
+  line-height: .95;
+  letter-spacing: -0.055em;
+}
+.simple-home-hero p {
+  max-width: 820px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.simple-home-chips { margin-top: 20px; }
+.simple-home-chips .support-chip { font-size: 15px; padding: 11px 16px; }
+@media (max-width: 640px) {
+  .simple-home-hero { padding-top: 44px; padding-bottom: 36px; }
+  .simple-home-hero h1 { font-size: clamp(44px, 15vw, 64px); }
+  .simple-home-hero p { font-size: 15px; }
+  .simple-home-chips .support-chip { font-size: 13px; padding: 9px 12px; }
+}
+
+
+/* Simple product home: concise + animated communication flow. */
+.simple-product-home .simple-home-hero { padding-top: 68px; padding-bottom: 44px; }
+.simple-product-home .simple-home-hero p { max-width: 680px; }
+.signal-demo {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(112px, 150px) minmax(80px, 1fr) minmax(132px, 180px) minmax(80px, 1fr) minmax(128px, 170px);
+  align-items: center;
+  gap: 14px;
+  max-width: 920px;
+  margin-top: 34px;
+  padding: 18px 20px;
+  border: 1px solid rgba(80,198,255,.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(80,198,255,.12), transparent 0 45%),
+    linear-gradient(180deg, rgba(15,35,67,.38), rgba(8,18,36,.20));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 18px 46px rgba(2,8,23,.20);
+  overflow: hidden;
+}.signal-node,
+.signal-core {
+  position: relative;
+  z-index: 1;
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(80,198,255,.24);
+  background: rgba(80,198,255,.08);
+  color: var(--text);
+  font-weight: 800;
+  font-family: "Chakra Petch", sans-serif;
+  letter-spacing: .01em;
+  transition: background .28s ease, box-shadow .28s ease, color .28s ease, border-color .28s ease;
+  overflow: hidden;
+}
+.signal-node:first-child {
+  animation: hostProcess 6s ease-in-out infinite;
+}
+.signal-node:last-child {
+  animation: equipmentProcess 6s ease-in-out infinite;
+}
+.signal-core {
+  color: var(--brand-2);
+  font-size: 22px;
+  background: linear-gradient(135deg, rgba(80,198,255,.22), rgba(91,140,255,.12));
+  box-shadow: 0 0 32px rgba(80,198,255,.10);
+  animation: coreProcess 6s ease-in-out infinite;
+  isolation: isolate;
+}
+.signal-core::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 50%, rgba(160,245,255,.36), rgba(80,198,255,.18) 45%, rgba(80,198,255,0) 72%);
+  opacity: 0;
+  transform: scale(.82);
+  filter: blur(2px);
+  animation: corePulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.signal-link {
+  position: relative;
+  z-index: 1;
+  height: 6px;
+}
+.signal-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(80,198,255,.14), rgba(80,198,255,.48), rgba(80,198,255,.14));
+}
+.signal-dot {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--brand-2);
+  box-shadow: 0 0 18px rgba(80,198,255,.95);
+  opacity: 0;
+  pointer-events: none;
+}
+.signal-dot::before,
+.signal-dot::after {
+  content: none;
+}
+.dot-left-out { animation: dotLeftOut 6s linear infinite; }
+.dot-right-out { animation: dotRightOut 6s linear infinite; }
+.dot-right-back { animation: dotRightBack 6s linear infinite; }
+.dot-left-back { animation: dotLeftBack 6s linear infinite; }
+@keyframes dotLeftOut {
+  0%, 15.9% { left: -10px; opacity: 0; }
+  16% { left: -7px; opacity: .22; }
+  18% { left: 0; opacity: 1; }
+  26% { left: calc(100% - 12px); opacity: 1; }
+  28% { left: calc(100% - 6px); opacity: 0; }
+  100% { left: calc(100% - 6px); opacity: 0; }
+}
+@keyframes dotRightOut {
+  0%, 37.9% { left: -10px; opacity: 0; }
+  38% { left: -7px; opacity: .22; }
+  40% { left: 0; opacity: 1; }
+  50% { left: calc(100% - 12px); opacity: 1; }
+  52% { left: calc(100% - 6px); opacity: 0; }
+  100% { left: calc(100% - 6px); opacity: 0; }
+}
+@keyframes dotRightBack {
+  0%, 61.9% { left: calc(100% - 6px); opacity: 0; }
+  62% { left: calc(100% - 7px); opacity: .22; }
+  64% { left: calc(100% - 12px); opacity: 1; }
+  74% { left: 0; opacity: 1; }
+  76% { left: -10px; opacity: 0; }
+  100% { left: -10px; opacity: 0; }
+}
+@keyframes dotLeftBack {
+  0%, 85.9% { left: calc(100% - 6px); opacity: 0; }
+  86% { left: calc(100% - 7px); opacity: .22; }
+  88% { left: calc(100% - 12px); opacity: 1; }
+  98% { left: 0; opacity: 1; }
+  100% { left: -10px; opacity: 0; }
+}
+@keyframes coreProcess {
+  0%, 25.9%, 37.9%, 73.9%, 85.9%, 100% {
+    color: var(--brand-2);
+    background: linear-gradient(135deg, rgba(80,198,255,.22), rgba(91,140,255,.12));
+    box-shadow: 0 0 32px rgba(80,198,255,.10);
+    border-color: rgba(80,198,255,.24);
+  }
+  26%, 38%, 74%, 86% {
+    color: #dff8ff;
+    background: linear-gradient(135deg, rgba(86,226,255,.34), rgba(80,198,255,.22));
+    box-shadow: 0 0 44px rgba(80,198,255,.30), 0 0 18px rgba(255,255,255,.09) inset;
+    border-color: rgba(120,230,255,.52);
+  }
+}
+@keyframes corePulse {
+  0%, 21.9%, 34.1%, 69.9%, 82.1%, 100% {
+    opacity: 0;
+    transform: scale(.82);
+  }
+  28%, 76% {
+    opacity: .85;
+    transform: scale(1.02);
+  }
+  38%, 86% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+@keyframes hostProcess {
+  0%, 16%, 100% {
+    color: #dff8ff;
+    background: rgba(86,226,255,.18);
+    box-shadow: 0 0 20px rgba(80,198,255,.20), 0 0 12px rgba(255,255,255,.06) inset;
+    border-color: rgba(120,230,255,.42);
+  }
+  17%, 91.9% {
+    color: var(--text);
+    background: rgba(80,198,255,.08);
+    box-shadow: none;
+    border-color: rgba(80,198,255,.24);
+  }
+}
+@keyframes equipmentProcess {
+  0%, 49.9%, 61.9%, 100% {
+    color: var(--text);
+    background: rgba(80,198,255,.08);
+    box-shadow: none;
+    border-color: rgba(80,198,255,.24);
+  }
+  50%, 62% {
+    color: #dff8ff;
+    background: rgba(86,226,255,.18);
+    box-shadow: 0 0 20px rgba(80,198,255,.20), 0 0 12px rgba(255,255,255,.06) inset;
+    border-color: rgba(120,230,255,.42);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signal-dot,
+  .signal-core,
+  .signal-core::after,
+  .signal-node:first-child,
+  .signal-node:last-child { animation: none; }
+  .dot-left-out { left: 0; opacity: 1; }
+}
+@media (max-width: 760px) {
+  .signal-demo {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    padding: 16px 16px;
+    gap: 10px;
+  }
+  .signal-link { height: 26px; }
+  .signal-line {
+    left: 50%;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(80,198,255,.14), rgba(80,198,255,.48), rgba(80,198,255,.14));
+  }
+  .signal-dot {
+    left: calc(50% - 5px) !important;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    transform: none;
+  }
+  .signal-dot::before,
+  .signal-dot::after {
+    content: none;
+  }
+  @keyframes dotLeftOut {
+    0%, 15.9% { top: -8px; opacity: 0; }
+    16% { top: -6px; opacity: .22; }
+    18% { top: 0; opacity: 1; }
+    26% { top: calc(100% - 10px); opacity: 1; }
+    28% { top: calc(100% - 5px); opacity: 0; }
+    100% { top: calc(100% - 5px); opacity: 0; }
+  }
+  @keyframes dotRightOut {
+    0%, 37.9% { top: -8px; opacity: 0; }
+    38% { top: -6px; opacity: .22; }
+    40% { top: 0; opacity: 1; }
+    50% { top: calc(100% - 10px); opacity: 1; }
+    52% { top: calc(100% - 5px); opacity: 0; }
+    100% { top: calc(100% - 5px); opacity: 0; }
+  }
+  @keyframes dotRightBack {
+    0%, 61.9% { top: calc(100% - 5px); opacity: 0; }
+    62% { top: calc(100% - 6px); opacity: .22; }
+    64% { top: calc(100% - 10px); opacity: 1; }
+    74% { top: 0; opacity: 1; }
+    76% { top: -8px; opacity: 0; }
+    100% { top: -8px; opacity: 0; }
+  }
+  @keyframes dotLeftBack {
+    0%, 85.9% { top: calc(100% - 5px); opacity: 0; }
+    86% { top: calc(100% - 6px); opacity: .22; }
+    88% { top: calc(100% - 10px); opacity: 1; }
+    98% { top: 0; opacity: 1; }
+    100% { top: -8px; opacity: 0; }
   }
 }
