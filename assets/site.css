@@ -2344,6 +2344,19 @@ body {
   .signal-node:last-child { animation: none; }
   .dot-left-out { left: 0; opacity: 1; }
 }
+/* Force homepage communication animation.
+   Some browsers freeze CSS animations when Windows / browser reduced-motion is enabled.
+   This keeps only the FluxSECS signal animation active across PCs. */
+@media (prefers-reduced-motion: reduce) {
+  .simple-product-home .signal-dot.dot-left-out { animation: dotLeftOut 6s linear infinite !important; }
+  .simple-product-home .signal-dot.dot-right-out { animation: dotRightOut 6s linear infinite !important; }
+  .simple-product-home .signal-dot.dot-right-back { animation: dotRightBack 6s linear infinite !important; }
+  .simple-product-home .signal-dot.dot-left-back { animation: dotLeftBack 6s linear infinite !important; }
+  .simple-product-home .signal-core { animation: coreProcess 6s ease-in-out infinite !important; }
+  .simple-product-home .signal-core::after { animation: corePulse 6s ease-in-out infinite !important; }
+  .simple-product-home .signal-node:first-child { animation: hostProcess 6s ease-in-out infinite !important; }
+  .simple-product-home .signal-node:last-child { animation: equipmentProcess 6s ease-in-out infinite !important; }
+}
 @media (max-width: 760px) {
   .signal-demo {
     grid-template-columns: 1fr;
