@@ -63,6 +63,7 @@
     showAllRelevant();
   }, { passive: true });
 
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { syncThemeButton(); }, { once: true });
   } else { syncThemeButton(); }
