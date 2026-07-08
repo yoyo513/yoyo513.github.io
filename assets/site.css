@@ -2336,14 +2336,6 @@ body {
     border-color: rgba(120,230,255,.42);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .signal-dot,
-  .signal-core,
-  .signal-core::after,
-  .signal-node:first-child,
-  .signal-node:last-child { animation: none; }
-  .dot-left-out { left: 0; opacity: 1; }
-}
 /* Force homepage communication animation.
    Some browsers freeze CSS animations when Windows / browser reduced-motion is enabled.
    This keeps only the FluxSECS signal animation active across PCs. */
