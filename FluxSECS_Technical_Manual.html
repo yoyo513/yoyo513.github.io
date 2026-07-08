@@ -1020,7 +1020,6 @@ secs.InitializeConfig(
 <strong>通訊就緒</strong>
 <br/>
                                 HSMS Select 握手已成功完成 (T3~T8 Timer 運作正常)。<br/>
-<span style="color: #4ade80; font-weight: bold;">這是唯一可以正常收發 SxFy 資料訊息的狀態。</span>
 </td>
 </tr>
 </tbody>
@@ -2172,7 +2171,6 @@ SecsItem[] ecValues = secs.GetEcValues("3001");</code>
 <h2 id="section-4-3-gem-dynamic">4.3 用程式碼新增/修改/移除 GEM 定義</h2>
 <p>本節說明如何用程式碼新增、修改或移除 GEM 模型定義，例如 VID、EC、Alarm、Report、CE。這裡處理的是「ID 與模型定義」，不是 VID / EC 的目前值。</p>
 <p>範例皆使用 <code>FluxSECS.dll</code> / <code>SF.dll</code> 原本公開的 API。</p>
-<div class="note"><strong>儲存方式：</strong>用程式碼新增或修改的 VID / EC / Alarm / Report / CE 會先存在記憶體；需要重啟後保留時，再呼叫 <code>SaveGemConfig()</code> 儲存回 <code>GemConfig.xml</code>。</div>
 <h3>GEM 模型定義 API 對照</h3>
 <div class="table-container">
 <table class="table">
@@ -2407,7 +2405,6 @@ secs.GEM.RemoveAlarm("3001");
 
 // 需要保留到 XML 時才呼叫
 secs.SaveGemConfig();</code></pre>
-<div class="note"><strong>使用區分：</strong>新增或修改 GEM 模型定義時使用 <code>GEM.Add*</code> / <code>GEM.Remove*</code> 與對應集合；更新 VID / EC 目前值時使用 4.1 的 <code>SetVidValue</code>、<code>TrySetVidValue</code>、<code>SetEcValue</code>、<code>TrySetEcValue</code>。CE 只負責事件定義與 Report 綁定，沒有 CE 值。</div>
 </section>
 <section id="diag">
 <h2 class="chapter-heading">5. 診斷</h2>
