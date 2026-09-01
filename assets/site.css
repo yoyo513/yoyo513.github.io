@@ -2410,3 +2410,58 @@ body {
     100% { top: -8px; opacity: 0; }
   }
 }
+
+/* 下載按鈕：目前作業系統尚未提供版本 */
+.btn.is-disabled,
+.btn.is-disabled:hover,
+.btn-primary.is-disabled,
+.btn-primary.is-disabled:hover {
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+  color: var(--muted) !important;
+  border-color: var(--line) !important;
+  background: rgba(148, 163, 184, .14) !important;
+  box-shadow: none !important;
+  opacity: .7;
+}
+.btn.is-disabled::before,
+.btn.is-disabled:hover::before {
+  opacity: 0 !important;
+}
+
+/* 下載卡片：其他版本清單 */
+.download-alt { margin-top: 12px; }
+.download-alt-toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.download-alt-toggle:hover { color: var(--text); }
+.download-alt-toggle::after { content: " ▾"; }
+.download-alt-toggle[aria-expanded="true"]::after { content: " ▴"; }
+.download-alt-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(148, 163, 184, .07);
+}
+.download-alt-list a {
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+}
+.download-alt-list a:hover { color: var(--text); text-decoration: underline; }
+.download-alt-list a.is-current { color: var(--text); font-weight: 700; }
+.download-alt-list a.is-current::after { content: " ·目前系統"; font-weight: 500; opacity: .7; }

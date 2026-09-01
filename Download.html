@@ -73,7 +73,7 @@
 											<p class="download-card-note">支援 .NET 6+ · .NET Framework 4.7.2+</p>
 										</div>
 										<div class="hero-actions download-card-actions">
-											<a class="btn btn-primary" href="#" onclick="downloadSDK();return false;">下載 SDK</a>
+											<a class="btn btn-primary" href="#" data-download="sdk">下載 SDK</a>
 										</div>
 									</article>
 									<!-- Simulator -->
@@ -81,9 +81,14 @@
 										<div class="download-card-body">
 											<h3 class="download-card-title">FluxSECS Simalutor<span class="badge">20260901</span></h3>
 											<p data-zh="模擬工具。" data-en="Simulation tool.">模擬工具。</p>
+											<p class="download-card-note" id="simulatorOsNote">依作業系統提供對應版本。</p>
 										</div>
 										<div class="hero-actions download-card-actions">
-											<a class="btn btn-primary" href="#" onclick="downloadSimalutor();return false;">下載 Simalutor</a>
+											<a class="btn btn-primary" href="#" id="simulatorDownloadBtn" data-download="simulator">下載 Simalutor</a>
+										</div>
+										<div class="download-alt" id="simulatorAltWrap" hidden>
+											<button class="download-alt-toggle" id="simulatorAltToggle" type="button" aria-expanded="false" aria-controls="simulatorAltList">其他版本</button>
+											<ul class="download-alt-list" id="simulatorAltList" hidden></ul>
 										</div>
 									</article>
 								</div>
