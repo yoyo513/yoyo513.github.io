@@ -42,8 +42,8 @@ html {
   scroll-behavior: smooth;
   scrollbar-gutter: auto;
 }
-*::selection { background: transparent !important; color: inherit !important; }
-*::-moz-selection { background: transparent !important; color: inherit !important; }
+*::selection { background: rgba(56,189,248,.28); color: inherit; }
+*::-moz-selection { background: rgba(56,189,248,.28); color: inherit; }
 body {
   margin: 0;
   height: 100vh;
@@ -2336,19 +2336,9 @@ body {
     border-color: rgba(120,230,255,.42);
   }
 }
-/* Force homepage communication animation.
-   Some browsers freeze CSS animations when Windows / browser reduced-motion is enabled.
-   This keeps only the FluxSECS signal animation active across PCs. */
-@media (prefers-reduced-motion: reduce) {
-  .simple-product-home .signal-dot.dot-left-out { animation: dotLeftOut 6s linear infinite !important; }
-  .simple-product-home .signal-dot.dot-right-out { animation: dotRightOut 6s linear infinite !important; }
-  .simple-product-home .signal-dot.dot-right-back { animation: dotRightBack 6s linear infinite !important; }
-  .simple-product-home .signal-dot.dot-left-back { animation: dotLeftBack 6s linear infinite !important; }
-  .simple-product-home .signal-core { animation: coreProcess 6s ease-in-out infinite !important; }
-  .simple-product-home .signal-core::after { animation: corePulse 6s ease-in-out infinite !important; }
-  .simple-product-home .signal-node:first-child { animation: hostProcess 6s ease-in-out infinite !important; }
-  .simple-product-home .signal-node:last-child { animation: equipmentProcess 6s ease-in-out infinite !important; }
-}
+/* v35：舊的 .signal-* 光點動畫已改由 .secs-demo 取代（見檔案下方）。
+   原本這裡用 !important 強制在 prefers-reduced-motion 下繼續播放動畫，
+   等於無視使用者的系統設定，已移除；新版改成不移動、只淡入淡出。 */
 @media (max-width: 760px) {
   .signal-demo {
     grid-template-columns: 1fr;
@@ -2408,6 +2398,475 @@ body {
     88% { top: calc(100% - 10px); opacity: 1; }
     98% { top: 0; opacity: 1; }
     100% { top: -8px; opacity: 0; }
+  }
+}
+
+/* ==================================================================
+ * v35：首頁／下載頁改回正常文件捲動（不再用內層捲動容器）
+ * 技術文件頁維持原本的 app shell 版面，不受影響。
+ * ================================================================== */
+html:has(body.flow-page) {
+  overflow: auto;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+body.flow-page {
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+  padding-bottom: 0;
+}
+body.flow-page .page-wrap {
+  height: auto;
+  min-height: calc(100vh - var(--header-h));
+  overflow: visible;
+}
+body.flow-page .page-wrap > main {
+  flex: 1 0 auto;
+  min-height: 0;
+  overflow: visible;
+}
+/* footer 不再固定在畫面底部，改成接在內容後面 */
+body.flow-page .footer {
+  position: static;
+  height: auto;
+  padding: 30px 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+body.flow-page .footer .container { height: auto; }
+
+/* Hero 主要行動按鈕 */
+.home-hero-actions { margin-top: 28px; }
+.home-hero-actions .btn { min-width: 168px; }
+
+/* 首頁程式碼範例區 */
+.code-sample-grid { align-items: stretch; gap: 18px; }
+.code-sample-grid .code-block {
+  padding: 20px 22px;
+  font-size: 13.5px;
+  overflow-x: auto;
+}
+.code-sample-grid .code-block pre { font-size: 13.5px; line-height: 1.7; }
+.code-sample-grid .code-block code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre;
+}
+.code-sample-foot { margin-top: 20px; display: flex; justify-content: center; }
+
+/* ==================================================================
+ * v35：窄螢幕導覽改成橫向 pill 列（原本整個藏起來，手機到不了下載頁）
+ * ================================================================== */
+@media (max-width: 980px) {
+  /* header 排成兩列：上排 logo + 主題鈕，下排導覽 pill（可橫向捲動）。
+     實際高度由 site.js 量測後寫回 --header-h。 */
+  .site-header { height: auto; }
+  .site-header .container { height: auto; padding: 10px 0 12px; }
+  .site-header .navbar {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .site-header .brand-wrap {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .site-header .navbar > .nav-links {
+    display: flex !important;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  .site-header .navbar > .nav-links::-webkit-scrollbar { display: none; }
+  .site-header .navbar > .nav-links a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+
+  /* 首頁／下載頁：header 改 sticky，內容自然接在後面 */
+  body.flow-page { padding-top: 0; }
+  body.flow-page .site-header { position: sticky; top: 0; }
+  body.flow-page .home-hero-actions { flex-direction: column; }
+  body.flow-page .home-hero-actions .btn { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  body.flow-page { padding-top: 0; padding-bottom: 0; }
+  body.flow-page .code-sample-grid .code-block { font-size: 12.5px; padding: 16px; }
+  body.flow-page .code-sample-grid .code-block pre { font-size: 12.5px; }
+  body.flow-page .code-sample-foot .btn { width: 100%; }
+}
+
+/* ==================================================================
+ * v35：品牌字樣（大標題用），配色與 header logo 一致
+ *   Flux — 藍色漸層
+ *   SECS — 深色主題：白字 + 青色霓虹；淺色主題：深色漸層 + 青色描邊
+ * 用法：<span class="brand-flux">Flux</span><span class="brand-secs">SECS</span>
+ * 兩個 span 中間不可有空白字元，否則會多出一個空格。
+ * ================================================================== */
+.brand-flux,
+.brand-secs {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 700;
+  /* 不要設 letter-spacing，讓它沿用各標題自己的字距 */
+}
+.brand-secs { color: var(--text); }
+/* 技術文件頁 h1 後面的「技術文件」 */
+.manual-title-suffix {
+  font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+  font-size: .6em;
+  font-weight: 700;
+  margin-left: .5em;
+  color: var(--text);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .brand-flux {
+    background-image: linear-gradient(180deg, #007ACC 0%, #0099ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+/* 不支援 background-clip:text 時的退路，不會變成透明看不見 */
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+  .brand-flux { color: #0099ff; }
+}
+
+/* 深色：白字 + 青色霓虹（對應 logo 的 feDropShadow #22d3ee） */
+.brand-secs {
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(34, 211, 238, .65), 0 0 20px rgba(34, 211, 238, .55);
+}
+
+/* 淺色：深色漸層字身 + 青色描邊（對應 logo 的 stroke #06b6d4） */
+[data-theme="light"] .brand-secs {
+  color: #0f172a;
+  text-shadow: none;
+  -webkit-text-stroke: 0.055em #06b6d4;
+  paint-order: stroke fill;
+}
+
+/* ==================================================================
+ * v35：首頁通訊流程動畫（取代舊的 .signal-* 光點動畫）
+ * 封包上印真實的 SECS 訊息名稱，核心顯示 HSMS 狀態，下方一行流程說明。
+ * 動畫由 assets/home-demo.js 驅動。
+ * ================================================================== */
+.secs-demo {
+  max-width: 920px;
+  margin-top: 34px;
+  padding: 20px 22px 16px;
+  border: 1px solid rgba(80,198,255,.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(80,198,255,.12), transparent 0 45%),
+    linear-gradient(180deg, rgba(15,35,67,.38), rgba(8,18,36,.20));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 18px 46px rgba(2,8,23,.20);
+}
+[data-theme="light"] .secs-demo {
+  border-color: rgba(2,132,199,.16);
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(240,248,255,.72));
+  box-shadow: 0 18px 40px rgba(24,54,98,.08), inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.secs-stage {
+  display: grid;
+  grid-template-columns: minmax(112px, 168px) minmax(84px, 1fr) minmax(140px, 196px) minmax(84px, 1fr) minmax(120px, 168px);
+  align-items: center;
+  gap: 14px;
+}
+
+/* --- 節點 --- */
+.secs-node {
+  position: relative;
+  z-index: 1;
+  min-height: 64px;
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  padding: 10px 12px;
+  text-align: center;
+  border-radius: 18px;
+  border: 1px solid rgba(80,198,255,.24);
+  background: rgba(80,198,255,.08);
+  transition: background .26s ease, border-color .26s ease, box-shadow .26s ease, transform .26s ease;
+}
+[data-theme="light"] .secs-node {
+  border-color: rgba(2,132,199,.18);
+  background: rgba(255,255,255,.72);
+}
+.secs-node-name {
+  font: 800 15px/1.2 "Chakra Petch", sans-serif;
+  color: var(--text);
+  letter-spacing: .01em;
+}
+.secs-node-role {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.secs-node.is-active {
+  border-color: rgba(120,230,255,.55);
+  background: rgba(86,226,255,.18);
+  box-shadow: 0 0 22px rgba(80,198,255,.24), inset 0 0 12px rgba(255,255,255,.06);
+  transform: translateY(-1px);
+}
+[data-theme="light"] .secs-node.is-active {
+  border-color: rgba(2,132,199,.42);
+  background: rgba(224,242,254,.92);
+  box-shadow: 0 10px 24px rgba(2,132,199,.14);
+}
+/* 警報訊息：節點閃紅，但 HSMS 狀態徽章維持不變 */
+.secs-node.is-active.is-alarm {
+  border-color: rgba(251,113,133,.55);
+  background: rgba(251,113,133,.18);
+  box-shadow: 0 0 22px rgba(251,113,133,.28), inset 0 0 12px rgba(255,255,255,.06);
+}
+[data-theme="light"] .secs-node.is-active.is-alarm {
+  border-color: rgba(225,29,72,.42);
+  background: rgba(255,228,230,.92);
+  box-shadow: 0 10px 24px rgba(225,29,72,.14);
+}
+
+.secs-node-core {
+  min-height: 76px;
+  background: linear-gradient(135deg, rgba(80,198,255,.22), rgba(91,140,255,.12));
+  box-shadow: 0 0 32px rgba(80,198,255,.10);
+}
+.secs-node-core .secs-node-name { font-size: 20px; color: var(--brand-2); }
+[data-theme="light"] .secs-node-core { background: linear-gradient(135deg, rgba(186,230,253,.72), rgba(224,242,254,.6)); }
+
+/* HSMS 狀態徽章 */
+.secs-state {
+  margin-top: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font: 700 10px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  transition: color .26s ease, background .26s ease, border-color .26s ease;
+}
+.secs-state[data-tone="idle"]  { color: #94a3b8; background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.28); }
+.secs-state[data-tone="warn"]  { color: #fbbf24; background: rgba(251,191,36,.13); border-color: rgba(251,191,36,.32); }
+.secs-state[data-tone="ok"]    { color: #4ade80; background: rgba(74,222,128,.13); border-color: rgba(74,222,128,.32); }
+.secs-state[data-tone="alarm"] { color: #fb7185; background: rgba(251,113,133,.14); border-color: rgba(251,113,133,.36); }
+
+/* --- 連線 --- */
+.secs-wire {
+  position: relative;
+  z-index: 1;
+  height: 28px;
+}
+.secs-wire-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(80,198,255,.14), rgba(80,198,255,.44), rgba(80,198,255,.14));
+}
+[data-theme="light"] .secs-wire-line {
+  background: linear-gradient(90deg, rgba(2,132,199,.12), rgba(2,132,199,.34), rgba(2,132,199,.12));
+}
+
+/* --- 封包 --- */
+.secs-packet {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: -12px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  font: 700 11px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.secs-packet.is-live { opacity: 0; }
+.secs-packet[data-kind="data"] {
+  color: #06283d;
+  background: linear-gradient(180deg, #7dd3fc, #38bdf8);
+  box-shadow: 0 0 16px rgba(56,189,248,.55);
+}
+.secs-packet[data-kind="ctrl"] {
+  color: #e2e8f0;
+  background: linear-gradient(180deg, rgba(100,116,139,.95), rgba(71,85,105,.95));
+  box-shadow: 0 0 14px rgba(148,163,184,.35);
+}
+.secs-packet[data-kind="alarm"] {
+  color: #3f0713;
+  background: linear-gradient(180deg, #fda4af, #fb7185);
+  box-shadow: 0 0 18px rgba(251,113,133,.55);
+}
+/* prefers-reduced-motion：不移動，在原地淡入淡出 */
+.secs-packet.is-static {
+  left: 50%;
+  transform: translateX(-50%);
+  animation: secsPacketFade .42s ease both;
+}
+@keyframes secsPacketFade {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
+
+/* --- 流程說明列 --- */
+.secs-log {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 16px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid rgba(80,198,255,.13);
+  font: 600 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--muted);
+  min-height: 20px;
+}
+[data-theme="light"] .secs-log { border-top-color: rgba(2,132,199,.14); }
+.secs-log-led {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--brand-2);
+  box-shadow: 0 0 9px rgba(80,198,255,.85);
+  animation: secsLedPulse 1.8s ease-in-out infinite;
+}
+@keyframes secsLedPulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+.secs-log-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .secs-log-led { animation: none; opacity: .8; }
+  .secs-node { transition: none; }
+}
+
+/* --- 窄螢幕：改成直向堆疊 --- */
+@media (max-width: 760px) {
+  .secs-demo { max-width: 480px; padding: 16px 16px 14px; }
+  .secs-stage { grid-template-columns: 1fr; gap: 8px; }
+  .secs-wire { height: 44px; }
+  .secs-wire-line {
+    left: 50%;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(80,198,255,.14), rgba(80,198,255,.44), rgba(80,198,255,.14));
+  }
+  [data-theme="light"] .secs-wire-line {
+    background: linear-gradient(180deg, rgba(2,132,199,.12), rgba(2,132,199,.34), rgba(2,132,199,.12));
+  }
+  .secs-packet {
+    top: 0;
+    left: 50%;
+    margin-top: 0;
+    margin-left: 0;
+    transform: translateX(-50%);
+  }
+  .secs-packet.is-static { top: 50%; margin-top: -11px; }
+  /* 窄螢幕讓說明文字換行，不要被切掉 */
+  .secs-log { font-size: 11.5px; align-items: flex-start; min-height: 34px; }
+  .secs-log-led { margin-top: 5px; }
+  .secs-log-text { white-space: normal; overflow: visible; text-overflow: clip; }
+}
+
+/* 技術文件頁：錨點偏移，避免標題被 header 蓋住。
+   注意：不要在 .tech-main 加 padding-bottom —— 它有固定高度
+   calc(100vh - header - 86px)，配上全域 border-box 會把內容區縮短，
+   中間那欄就會比左側欄早結束，下方出現一塊空白。 */
+.technical-manual-page { scroll-padding-top: calc(var(--header-h) + 16px); }
+
+/* 桌機：讓中間內容欄和左側欄一樣延伸到底。
+   下方的呼吸空間要加在捲動容器「裡面」(.main-content)，
+   加在 .tech-main 上會縮短可視區，底部就會空一塊。 */
+@media (min-width: 1025px) {
+  .technical-manual-page .tech-main { padding-bottom: 0; }
+  .technical-manual-page .tech-main .main-content { padding-bottom: 24px; }
+}
+
+.technical-manual-page section[id],
+.technical-manual-page h2[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+/* ==================================================================
+ * v35：技術文件頁窄螢幕版面重寫
+ *
+ * 原本的問題：桌機用 position:fixed 的側欄，在 <=1024px 改成 sticky 時
+ * 沒有清掉 left / bottom，而且 body 被設成 overflow:auto 變成捲動容器，
+ * 導致 sticky 的 top 被 body 的 padding-top 重複計算，章節列整條往下
+ * 掉到內容上面（標題被蓋住、logo 與側欄被推出畫面）。
+ *
+ * 這裡改成和首頁一樣的正常文件流：html 捲動、header 與章節列各自 sticky。
+ * ================================================================== */
+@media (max-width: 1024px) {
+  html:has(body.technical-manual-page) { overflow: visible; height: auto; }
+  body.technical-manual-page {
+    overflow: visible;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  body.technical-manual-page .page-wrap { height: auto; overflow: visible; }
+
+  body.technical-manual-page .site-header {
+    position: sticky;
+    top: 0;
+    height: auto;
+    z-index: 1000;
+  }
+
+  body.technical-manual-page .tech-shell { height: auto; overflow: visible; }
+
+  /* 章節列：貼在 header 下方。left / bottom 必須清掉，
+     否則會沿用桌機 fixed 版面的定位值。 */
+  body.technical-manual-page .tech-sidebar {
+    position: sticky;
+    top: var(--header-h);
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    max-height: none;
+    z-index: 890;
+  }
+
+  body.technical-manual-page .tech-main {
+    margin-left: 0;
+    height: auto;
+    overflow: visible;
+    padding: 18px 14px 40px;
+  }
+  body.technical-manual-page .tech-main .main-content {
+    height: auto;
+    max-width: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  /* 頁尾不再固定，接在內容後面 */
+  body.technical-manual-page .footer {
+    position: static;
+    height: auto;
+    padding: 26px 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
   }
 }
 

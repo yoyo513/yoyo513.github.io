@@ -8,41 +8,38 @@
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 			<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 				<script>(function(){try{var t=localStorage.getItem('fluxsecs-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
-				<link rel="stylesheet" href="./assets/site.css">
+				<link rel="stylesheet" href="./assets/site.css?v=35">
 				</head>
-				<body>
+				<body class="flow-page">
 					<div class="page-wrap">
 						<header class="site-header">
   <div class="container">
     <nav class="navbar">
       <div class="brand-wrap">
-        <a class="brand-link" href="./index.html"><svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" aria-label="FluxSECS logo">
+        <a class="brand-link" href="./index.html"><svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FluxSECS">
   <defs>
-    <linearGradient id="gradFlux" x1="0%" x2="0%" y1="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#007ACC;stop-opacity:1"></stop>
-      <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1"></stop>
+    <linearGradient id="gradFlux" x1="0" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#007ACC"></stop>
+      <stop offset="1" stop-color="#0099ff"></stop>
     </linearGradient>
-    <linearGradient id="gradSecs" x1="0%" x2="0%" y1="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1"></stop>
-      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1"></stop>
-      <stop offset="100%" style="stop-color:#000000;stop-opacity:1"></stop>
+    <linearGradient id="gradSecs" x1="0" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1e3a8a"></stop>
+      <stop offset="0.5" stop-color="#0f172a"></stop>
+      <stop offset="1" stop-color="#000000"></stop>
     </linearGradient>
-    <filter height="200%" id="glow" width="200%" x="-50%" y="-50%">
-      <feGaussianBlur result="coloredBlur" stdDeviation="12"></feGaussianBlur>
-      <feMerge>
-        <feMergeNode in="coloredBlur"></feMergeNode>
-        <feMergeNode in="SourceGraphic"></feMergeNode>
-      </feMerge>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#22d3ee" flood-opacity="1"></feDropShadow>
     </filter>
   </defs>
   <g class="logo-aurora">
-    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
-    <text fill="white" filter="url(#glow)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" style="text-shadow: 0 0 10px #22d3ee" x="494" y="227">SECS</text>
+    <text x="6" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradFlux)">Flux</text>
+    <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="#ffffff" filter="url(#glow)">SECS</text>
+    <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="#ffffff">SECS</text>
   </g>
   <g class="logo-solar">
-    <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
-    <text fill="none" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" stroke="rgba(6,182,212,0.4)" stroke-linejoin="round" stroke-width="24" x="494" y="227">SECS</text>
-    <text fill="url(#gradSecs)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="494" y="227">SECS</text>
+    <text x="6" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradFlux)">Flux</text>
+    <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="none" stroke="#06b6d4" stroke-width="24" stroke-linejoin="round">SECS</text>
+    <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradSecs)">SECS</text>
   </g>
 </svg></a>
         <div class="header-actions">
@@ -50,9 +47,9 @@
         </div>
       </div>
       <div class="nav-links">
-        <a href="index.html" data-zh="首頁" data-en="Home">首頁</a>        
-        <a href="./FluxSECS_Technical_Manual.html" data-zh="文件" data-en="Docs">文件</a>
-        <a href="./Download.html" class="btn-primary active" data-zh="下載" data-en="Download">下載</a>
+        <a href="./index.html">首頁</a>
+        <a href="./FluxSECS_Technical_Manual.html">文件</a>
+        <a href="./Download.html" class="btn-primary active">下載</a>
       </div>
     </nav>
   </div>
@@ -80,7 +77,7 @@
 									<article class="card compact-card download-card">
 										<div class="download-card-body">
 											<h3 class="download-card-title">FluxSECS Simalutor<span class="badge">20260901</span></h3>
-											<p data-zh="模擬工具。" data-en="Simulation tool.">模擬工具。</p>
+											<p class="download-card-meta">Host 端模擬工具</p>
 											<p class="download-card-note" id="simulatorOsNote">依作業系統提供對應版本。</p>
 										</div>
 										<div class="hero-actions download-card-actions">
@@ -101,7 +98,7 @@
 							</footer>
 						</main>
 					</div>
-					<script src="./assets/site.js"></script>
-				<script src="./assets/download.js"></script>
+					<script src="./assets/site.js?v=35"></script>
+				<script src="./assets/download.js?v=35"></script>
 </body>
 			</html>

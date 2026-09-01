@@ -71,4 +71,52 @@
   window.addEventListener('storage', function (event) {
     if (event.key === 'fluxsecs-theme') { applyTheme(getSavedTheme()); syncThemeButton(); }
   });
+
+  /* ------------------------------------------------------------------
+   * 窄螢幕的 header 會排成兩列（logo 一列、導覽 pill 一列），高度不固定。
+   * 量測實際高度寫回 --header-h，讓技術文件頁 sticky 章節列的 top
+   * 能貼齊 header 下緣，不會被蓋住或留空隙。
+   * 斷點用 1024px，與技術文件頁的響應式版面一致。
+   * ------------------------------------------------------------------ */
+  var compactHeader = window.matchMedia('(max-width: 1024px)');
+  var headerObserver = null;
+
+  function syncHeaderHeight() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    if (!compactHeader.matches) {
+      root.style.removeProperty('--header-h');
+      document.body.style.removeProperty('--header-h');
+      return;
+    }
+    var h = Math.round(header.getBoundingClientRect().height);
+    if (h > 0) {
+      root.style.setProperty('--header-h', h + 'px');
+      document.body.style.setProperty('--header-h', h + 'px');
+    }
+  }
+
+  function watchHeaderHeight() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    syncHeaderHeight();
+    if (window.ResizeObserver && !headerObserver) {
+      headerObserver = new ResizeObserver(syncHeaderHeight);
+      headerObserver.observe(header);
+    }
+  }
+
+  if (compactHeader.addEventListener) {
+    compactHeader.addEventListener('change', syncHeaderHeight);
+  } else if (compactHeader.addListener) {
+    compactHeader.addListener(syncHeaderHeight);
+  }
+  window.addEventListener('resize', syncHeaderHeight);
+  window.addEventListener('load', syncHeaderHeight);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchHeaderHeight, { once: true });
+  } else {
+    watchHeaderHeight();
+  }
 })();

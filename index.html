@@ -3,48 +3,47 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>FluxSECS</title>
+  <title>FluxSECS — 半導體設備通訊 SDK（HSMS / SECS-II / GEM）</title>
+  <meta name="description" content="FluxSECS 是 .NET Standard 2.0 的半導體設備通訊 SDK，提供 SEMI E37 HSMS 傳輸、E5 SECS-II 訊息處理與 E30 GEM 整合，並附模擬工具與完整技術文件。"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
   <script>(function(){try{var t=localStorage.getItem('fluxsecs-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
-<link rel="stylesheet" href="./assets/site.css?v=34">
-<script src="./assets/site.js?v=34"></script>
+  <link rel="stylesheet" href="./assets/site.css?v=35">
+  <script src="./assets/site.js?v=35" defer></script>
+  <script src="./assets/home-demo.js?v=35" defer></script>
 </head>
-<body class="home-page simple-product-home">
+<body class="home-page simple-product-home flow-page">
   <div class="page-wrap">
     <header class="site-header">
       <div class="container">
         <nav class="navbar">
           <div class="brand-wrap">
             <a class="brand-link" href="./index.html" aria-label="FluxSECS Home">
-              <svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" aria-label="FluxSECS logo">
+              <svg class="logo-svg" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FluxSECS">
                 <defs>
-                  <linearGradient id="gradFlux" x1="0%" x2="0%" y1="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#007ACC;stop-opacity:1"/>
-                    <stop offset="100%" style="stop-color:#0099ff;stop-opacity:1"/>
+                  <linearGradient id="gradFlux" x1="0" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#007ACC"/>
+                    <stop offset="1" stop-color="#0099ff"/>
                   </linearGradient>
-                  <linearGradient id="gradSecs" x1="0%" x2="0%" y1="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1"/>
-                    <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1"/>
-                    <stop offset="100%" style="stop-color:#000000;stop-opacity:1"/>
+                  <linearGradient id="gradSecs" x1="0" y1="0" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#1e3a8a"/>
+                    <stop offset="0.5" stop-color="#0f172a"/>
+                    <stop offset="1" stop-color="#000000"/>
                   </linearGradient>
-                  <filter height="200%" id="glow" width="200%" x="-50%" y="-50%">
-                    <feGaussianBlur result="coloredBlur" stdDeviation="12"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
+                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#22d3ee" flood-opacity="1"/>
                   </filter>
                 </defs>
                 <g class="logo-aurora">
-                  <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
-                  <text fill="white" filter="url(#glow)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" style="text-shadow: 0 0 10px #22d3ee" x="494" y="227">SECS</text>
+                  <text x="6" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradFlux)">Flux</text>
+                  <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="#ffffff" filter="url(#glow)">SECS</text>
+                  <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="#ffffff">SECS</text>
                 </g>
                 <g class="logo-solar">
-                  <text fill="url(#gradFlux)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="64" y="227">Flux</text>
-                  <text fill="none" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" stroke="rgba(6,182,212,0.4)" stroke-linejoin="round" stroke-width="24" x="494" y="227">SECS</text>
-                  <text fill="url(#gradSecs)" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="bold" x="494" y="227">SECS</text>
+                  <text x="6" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradFlux)">Flux</text>
+                  <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="none" stroke="#06b6d4" stroke-width="24" stroke-linejoin="round">SECS</text>
+                  <text x="436.5" y="228" font-family="'Chakra Petch', sans-serif" font-size="220" font-weight="700" fill="url(#gradSecs)">SECS</text>
                 </g>
               </svg>
             </a>
@@ -53,7 +52,7 @@
             </div>
           </div>
           <div class="nav-links">
-            <a class="active" href="index.html">首頁</a>
+            <a class="active" href="./index.html">首頁</a>
             <a href="./FluxSECS_Technical_Manual.html">文件</a>
             <a class="btn-primary" href="./Download.html">下載</a>
           </div>
@@ -64,8 +63,14 @@
     <main class="page-scroll">
       <section class="hero compact-hero simple-home-hero">
         <div class="container">
-          <h1>FluxSECS</h1>
+          <h1><span class="brand-flux">Flux</span><span class="brand-secs">SECS</span></h1>
           <p>FluxSECS 提供 HSMS 傳輸、SECS-II 訊息處理與 GEM 整合能力，用於半導體設備通訊整合</p>
+
+          <div class="hero-actions home-hero-actions">
+            <a class="btn btn-primary" href="./Download.html">下載 SDK</a>
+            <a class="btn btn-secondary" href="./FluxSECS_Technical_Manual.html">技術文件</a>
+          </div>
+
           <div class="support-inline simple-home-chips">
             <span class="support-chip">.NET Standard 2.0</span>
             <span class="support-chip">.NET Framework / .NET</span>
@@ -74,20 +79,39 @@
             <span class="support-chip">E30</span>
           </div>
 
-          <div class="signal-demo" aria-label="SECS GEM communication flow">
-            <div class="signal-node">Host</div>
-            <div class="signal-link signal-left" aria-hidden="true">
-              <span class="signal-line"></span>
-              <span class="signal-dot dot-left-out"></span>
-              <span class="signal-dot dot-left-back"></span>
+          <div class="secs-demo" id="secsDemo" role="img"
+               aria-label="SECS/GEM 通訊流程示意：Host 與 Equipment 透過 FluxSECS 完成 HSMS 交握、建立通訊、事件與警報回報">
+            <div class="secs-stage">
+              <div class="secs-node" data-node="host">
+                <span class="secs-node-name">Host</span>
+                <span class="secs-node-role">EAP / MES</span>
+              </div>
+
+              <div class="secs-wire" data-wire="left" aria-hidden="true">
+                <span class="secs-wire-line"></span>
+                <span class="secs-packet" data-packet="left" data-kind="data"></span>
+              </div>
+
+              <div class="secs-node secs-node-core" data-node="core">
+                <span class="secs-node-name">FluxSECS</span>
+                <span class="secs-state" data-tone="idle">NOT CONNECTED</span>
+              </div>
+
+              <div class="secs-wire" data-wire="right" aria-hidden="true">
+                <span class="secs-wire-line"></span>
+                <span class="secs-packet" data-packet="right" data-kind="data"></span>
+              </div>
+
+              <div class="secs-node" data-node="equip">
+                <span class="secs-node-name">Equipment</span>
+                <span class="secs-node-role">Tool</span>
+              </div>
             </div>
-            <div class="signal-core">FluxSECS</div>
-            <div class="signal-link signal-right" aria-hidden="true">
-              <span class="signal-line"></span>
-              <span class="signal-dot dot-right-out"></span>
-              <span class="signal-dot dot-right-back"></span>
-            </div>
-            <div class="signal-node">Equipment</div>
+
+            <p class="secs-log">
+              <span class="secs-log-led" aria-hidden="true"></span>
+              <span class="secs-log-text">等待連線…</span>
+            </p>
           </div>
         </div>
       </section>
@@ -96,7 +120,7 @@
         <div class="container">
           <div class="section-head compact-head">
             <h2>核心能力</h2>
-            <p>通訊、訊息、GEM 與模擬工具。</p>
+            <p>從底層連線到 GEM 模型，一套元件涵蓋設備端通訊所需的四個層次。</p>
           </div>
           <div class="grid-4 compact-grid">
             <article class="card compact-card">
@@ -109,7 +133,7 @@
                 </svg>
               </div>
               <h3>HSMS Communication</h3>
-              <p>SEMI E37 TCP/IP。</p>
+              <p>SEMI E37 的 TCP/IP 連線層，Active / Passive 模式、Select 與 Linktest 交握、T3–T8 逾時控制皆由元件處理，斷線自動重連。</p>
             </article>
             <article class="card compact-card">
               <div class="icon-pill" aria-hidden="true">
@@ -121,7 +145,7 @@
                 </svg>
               </div>
               <h3>SECS-II Engine</h3>
-              <p>SEMI E5 訊息處理。</p>
+              <p>SEMI E5 訊息編解碼。以 SecsItem 組裝巢狀 List、ASCII、整數與浮點資料，收送 Primary / Secondary 訊息不必自己拼位元組。</p>
             </article>
             <article class="card compact-card">
               <div class="icon-pill" aria-hidden="true">
@@ -134,7 +158,7 @@
                 </svg>
               </div>
               <h3>GEM Integration</h3>
-              <p>SEMI E30 模型管理。</p>
+              <p>SEMI E30 模型管理。VID、EC、Report、CEID 與 Alarm 以 XML 定義，也能在執行期用程式碼新增修改，含控制狀態機。</p>
             </article>
             <article class="card compact-card">
               <div class="icon-pill" aria-hidden="true">
@@ -145,9 +169,59 @@
                   <path d="M42 45l6 6m0-6l-6 6" opacity=".78"/>
                 </svg>
               </div>
-              <h3>Simulator & Docs</h3>
-              <p>測試工具與文件。</p>
+              <h3>Simulator &amp; Docs</h3>
+              <p>附 Host 端模擬工具，沒有真實機台也能驗證訊息流程；技術文件涵蓋設定檔參數、API 與 GEM 標準指令庫。</p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="quickstart-code">
+        <div class="container">
+          <div class="section-head compact-head">
+            <h2>幾行程式碼就能通訊</h2>
+            <p>載入設定、啟動連線、送出 SECS-II 訊息，不需要自己處理 socket 與位元組編碼。</p>
+          </div>
+          <div class="grid-2 compact-grid code-sample-grid">
+            <div class="code-block">
+<pre><code>// 1. 建立元件並載入設定
+FluxSECS.SECS secs = new FluxSECS.SECS();
+
+secs.InitializeConfig(
+    ConnectionPath:   "Config/Connection.xml",
+    GemDataPath:      "Config/GemConfig.xml",
+    StandardDataPath: "Config/Standard.xml",
+    LicensePath:      "Config/License.license",
+    debugmode: true,
+    monitor: (msg) =&gt; Console.WriteLine($"[MON] {msg}"),
+    trace:   (msg) =&gt; Console.WriteLine($"[TRC] {msg}")
+);
+
+// 2. 依 Connection.xml 啟動 HSMS 連線
+secs.Start();</code></pre>
+            </div>
+            <div class="code-block">
+<pre><code>// 3. 送出 S1F13（建立通訊請求）
+var s1f13 = new SecsMessage(1, 13, true);
+
+var root = new SecsItem(SecsFormat.List);
+root.Add_ASCII("MDLN-01");  // Model Name
+root.Add_ASCII("1.0.0");    // Software Rev
+s1f13.Add(root);
+
+secs.SendPrimary(s1f13);
+
+// 4. 接收訊息並回覆
+secs.OnDataMessage += (type, msg) =&gt;
+{
+    if (type == TransactionType.PrimaryIn
+        &amp;&amp; msg.Stream == 1 &amp;&amp; msg.Function == 1)
+        secs.Standard_S1F2(msg, "MY_MODEL", "1.0");
+};</code></pre>
+            </div>
+          </div>
+          <div class="code-sample-foot">
+            <a class="btn btn-secondary" href="./FluxSECS_Technical_Manual.html#section-1-2">看完整快速開始</a>
           </div>
         </div>
       </section>
@@ -156,8 +230,8 @@
         <div class="container split-banner compact-banner getting-started-shell">
           <div class="getting-started-copy">
             <div class="section-head compact-head gs-head" style="margin-bottom:0;">
-				<h2 data-zh="開始使用" data-en="Getting Started">開始使用</h2>
-				<p data-zh="三個步驟快速完成基本串接，從下載、連線到通訊驗證，建立最小可運作流程。" data-en="Complete the basic integration in three steps, from download and connection setup to communication validation.">三個步驟快速完成基本串接，從下載、連線到通訊驗證，建立最小可運作流程。</p>
+              <h2>開始使用</h2>
+              <p>三個步驟快速完成基本串接，從下載、連線到通訊驗證，建立最小可運作流程。</p>
             </div>
             <div class="gs-mini-flow" aria-hidden="true">
               <span class="gs-pill">下載</span>
@@ -172,7 +246,7 @@
               <div class="step-no">1</div>
               <div class="gs-step-body">
                 <strong>下載 SDK</strong>
-                <p>取得套件。</p>
+                <p>取得 SDK 套件與模擬工具，放進專案的執行目錄。</p>
               </div>
               <div class="gs-step-arrow" aria-hidden="true">→</div>
             </a>
@@ -180,7 +254,7 @@
               <div class="step-no">2</div>
               <div class="gs-step-body">
                 <strong>設定 HSMS 連線</strong>
-                <p>設定連線，正式進入HSMS通訊世界。</p>
+                <p>在 Connection.xml 填入 IP、Port、Device ID 與 Active／Passive 模式。</p>
               </div>
               <div class="gs-step-arrow" aria-hidden="true">→</div>
             </a>
@@ -188,7 +262,7 @@
               <div class="step-no">3</div>
               <div class="gs-step-body">
                 <strong>驗證通訊</strong>
-                <p>恭喜入門。</p>
+                <p>用 Console 或模擬工具送出 S1F1，收到 S1F2 即代表連線成立。</p>
               </div>
               <div class="gs-step-arrow" aria-hidden="true">→</div>
             </a>
@@ -204,6 +278,5 @@
       </div>
     </footer>
   </div>
-  <script src="./assets/site.js?v=30"></script>
 </body>
 </html>
