@@ -6,6 +6,7 @@ var CONTACT_EMAIL = FORM_ID.indexOf('enc:') === 0
   ? atob(FORM_ID.slice(4).split('').reverse().join(''))
   : FORM_ID;
 
+
 (function () {
   var form = document.getElementById('contactForm');
   if (!form) return;
@@ -17,47 +18,55 @@ var CONTACT_EMAIL = FORM_ID.indexOf('enc:') === 0
     status.className = 'contact-status' + (type ? ' is-' + type : '');
   }
 
+  function addHidden(name, value) {
+    var el = form.querySelector('input[type=hidden][name="' + name + '"]');
+    if (!el) {
+      el = document.createElement('input');
+      el.type = 'hidden';
+      el.name = name;
+      form.appendChild(el);
+    }
+    el.value = value;
+  }
+
+  // 寄出後 FormSubmit 會導回本頁並帶 ?sent=1
+  if (/[?&]sent=1/.test(location.search)) {
+    show('已送出，謝謝您的留言！我們會盡快回覆。', 'ok');
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  }
+
+  // 使用者按「上一頁」回來時，把按鈕恢復
+  window.addEventListener('pageshow', function () {
+    btn.disabled = false;
+    if (!/[?&]sent=1/.test(location.search) && status.textContent === '傳送中…') show('');
+  });
+
   form.addEventListener('submit', function (e) {
-    e.preventDefault();
     if (!form.checkValidity()) {
+      e.preventDefault();
       form.reportValidity();
       return;
     }
-    var data = new FormData(form);
-    if (data.get('_honey')) return; // 機器人
+    if (form.querySelector('[name=_honey]').value) { e.preventDefault(); return; } // 機器人
     if (location.protocol === 'file:') {
+      e.preventDefault();
       show('表單需要在網站上線後才能使用（目前是直接開啟本機檔案）。', 'error');
       return;
     }
-    data.append('_subject', 'FluxSECS 官網留言：' + (data.get('主旨') || ''));
-    data.append('_template', 'table');
-    data.append('_replyto', data.get('email') || '');
 
+    var subject = (form.querySelector('[name="主旨"]').value || '').trim();
+    var email = (form.querySelector('[name=email]').value || '').trim();
+    addHidden('_subject', 'FluxSECS 官網留言：' + subject);
+    addHidden('_template', 'table');
+    addHidden('_captcha', 'false');
+    addHidden('_replyto', email);
+    addHidden('_next', location.origin + location.pathname + '?sent=1');
+
+    // 送出時才設定目的地，原始碼中不會出現信箱
+    form.action = 'https://formsubmit.co/' + encodeURIComponent(CONTACT_EMAIL);
+    form.method = 'POST';
     btn.disabled = true;
     show('傳送中…');
-    fetch('https://formsubmit.co/ajax/' + encodeURIComponent(CONTACT_EMAIL), {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: data
-    })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (res) {
-        if (res.ok && String(res.j.success) === 'true') {
-          form.reset();
-          show('已送出，謝謝您的留言！我們會盡快回覆。', 'ok');
-        } else {
-          var msg = (res.j && res.j.message) || '';
-          if (/activat/i.test(msg)) {
-            // 第一次使用：FormSubmit 已寄確認信到收件信箱
-            show('表單尚未啟用，請稍後再試。', 'error');
-          } else {
-            show('送出失敗：' + (msg || '未知錯誤') + '，請稍後再試。', 'error');
-          }
-        }
-      })
-      .catch(function (err) {
-        show('送出失敗，請檢查網路連線後再試一次。', 'error');
-      })
-      .then(function () { btn.disabled = false; });
+    // 不攔截，讓瀏覽器以一般表單方式送出
   });
 })();
