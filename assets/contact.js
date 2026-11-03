@@ -1,6 +1,6 @@
-// 聯絡表單：透過 FormSubmit 寄出
-// 收件信箱已編碼，原始碼中不會出現明文信箱。
-// 啟用表單後，可把 FORM_ID 換成 FormSubmit 確認信中的隨機代碼（直接填代碼，不用編碼）。
+// 聯絡表單：按送出後用 mailto 打開訪客的郵件程式，內容自動填好
+// 收件信箱已編碼（enc: 開頭），原始碼中不會出現明文信箱。
+// 要換信箱：把新信箱告訴 Claude 產生編碼，或直接改成明文，例如 var FORM_ID = 'abc@example.com';
 var FORM_ID = 'enc:=cHdu02bj5Cdm92chRmbhJHQ5FmU';
 var CONTACT_EMAIL = FORM_ID.indexOf('enc:') === 0
   ? atob(FORM_ID.slice(4).split('').reverse().join(''))
@@ -10,63 +10,42 @@ var CONTACT_EMAIL = FORM_ID.indexOf('enc:') === 0
 (function () {
   var form = document.getElementById('contactForm');
   if (!form) return;
-  var btn = document.getElementById('contactSubmit');
   var status = document.getElementById('contactStatus');
 
   function show(msg, type) {
     status.textContent = msg;
     status.className = 'contact-status' + (type ? ' is-' + type : '');
   }
-
-  function addHidden(name, value) {
-    var el = form.querySelector('input[type=hidden][name="' + name + '"]');
-    if (!el) {
-      el = document.createElement('input');
-      el.type = 'hidden';
-      el.name = name;
-      form.appendChild(el);
-    }
-    el.value = value;
+  function val(name) {
+    var el = form.querySelector('[name="' + name + '"]');
+    return el ? (el.value || '').trim() : '';
   }
-
-  // 寄出後 FormSubmit 會導回本頁並帶 ?sent=1
-  if (/[?&]sent=1/.test(location.search)) {
-    show('已送出，謝謝您的留言！我們會盡快回覆。', 'ok');
-    try { history.replaceState(null, '', location.pathname); } catch (e) {}
-  }
-
-  // 使用者按「上一頁」回來時，把按鈕恢復
-  window.addEventListener('pageshow', function () {
-    btn.disabled = false;
-    if (!/[?&]sent=1/.test(location.search) && status.textContent === '傳送中…') show('');
-  });
 
   form.addEventListener('submit', function (e) {
+    e.preventDefault();
     if (!form.checkValidity()) {
-      e.preventDefault();
       form.reportValidity();
       return;
     }
-    if (form.querySelector('[name=_honey]').value) { e.preventDefault(); return; } // 機器人
-    if (location.protocol === 'file:') {
-      e.preventDefault();
-      show('表單需要在網站上線後才能使用（目前是直接開啟本機檔案）。', 'error');
-      return;
-    }
+    if (val('_honey')) return; // 機器人
 
-    var subject = (form.querySelector('[name="主旨"]').value || '').trim();
-    var email = (form.querySelector('[name=email]').value || '').trim();
-    addHidden('_subject', 'FluxSECS 官網留言：' + subject);
-    addHidden('_template', 'table');
-    addHidden('_captcha', 'false');
-    addHidden('_replyto', email);
-    addHidden('_next', location.origin + location.pathname + '?sent=1');
+    var subject = 'FluxSECS 官網留言：' + val('主旨');
+    var lines = [
+      '姓名：' + val('姓名'),
+      'Email：' + val('email'),
+      '公司：' + (val('公司') || '（未填）'),
+      '',
+      '內容：',
+      val('內容')
+    ];
+    var body = lines.join('\r\n');
 
-    // 送出時才設定目的地，原始碼中不會出現信箱
-    form.action = 'https://formsubmit.co/' + encodeURIComponent(CONTACT_EMAIL);
-    form.method = 'POST';
-    btn.disabled = true;
-    show('傳送中…');
-    // 不攔截，讓瀏覽器以一般表單方式送出
+    // 用 mailto 打開訪客的郵件程式，收件人、主旨、內容自動填好
+    var href = 'mailto:' + CONTACT_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+
+    window.location.href = href;
+    show('已開啟您的郵件程式，請在郵件中按「傳送」完成寄出。', 'ok');
   });
 })();
