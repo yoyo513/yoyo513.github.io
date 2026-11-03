@@ -482,6 +482,8 @@ pre { margin: 0; font: 14px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, 
 .footer-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;line-height:1.25;}
 .footer-brand{font:700 14px/1.1 "Chakra Petch", sans-serif;color:var(--text);letter-spacing:.02em;}
 .footer-copy{font-size:12px;color:var(--muted);}
+.footer-contact{font-size:13px;color:var(--muted);text-decoration:none;}
+.footer-contact:hover{color:var(--text);text-decoration:underline;}
 @media (max-width: 980px) {
   body { padding-bottom: 82px; }
   .footer { height: 82px; }
@@ -2413,7 +2415,7 @@ body.flow-page {
   height: auto;
   min-height: 100vh;
   overflow: visible;
-  padding-bottom: 0;
+  padding-bottom: 86px; /* 預留固定頁尾的高度，內容不會被蓋住 */
 }
 body.flow-page .page-wrap {
   height: auto;
@@ -2425,16 +2427,22 @@ body.flow-page .page-wrap > main {
   min-height: 0;
   overflow: visible;
 }
-/* footer 不再固定在畫面底部，改成接在內容後面 */
-body.flow-page .footer {
-  position: static;
-  height: auto;
-  padding: 30px 0;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
+/* 頁尾固定在畫面底部（與文件頁一致） */
+body.flow-page .page-wrap { min-height: calc(100vh - var(--header-h) - 86px); }
+@media (max-width: 1024px) {
+  /* 小螢幕與文件頁相同：頁尾接在內容後面 */
+  body.flow-page { padding-bottom: 0; }
+  body.flow-page .page-wrap { min-height: calc(100vh - var(--header-h)); }
+  body.flow-page .footer {
+    position: static;
+    margin-top: auto;
+    height: auto;
+    padding: 26px 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
 }
-body.flow-page .footer .container { height: auto; }
 
 /* Hero 主要行動按鈕 */
 .home-hero-actions { margin-top: 28px; }
@@ -2799,6 +2807,22 @@ body.flow-page .footer .container { height: auto; }
   .technical-manual-page .tech-main .main-content { padding-bottom: 24px; }
 }
 
+/* v39：桌機左側目錄與右側內容上下切齊
+   右欄：可視區上緣距 header 22px、下緣距 footer 24px
+   左欄：用同樣的上下間距，並套用與內容卡片相同的圓角邊框 */
+@media (min-width: 1025px) {
+  .technical-manual-page .tech-main { padding-bottom: 24px; }
+  .technical-manual-page .tech-main .main-content { padding-bottom: 0; }
+  .technical-manual-page .tech-main .main-content > section:last-of-type { margin-bottom: 0; }
+  .technical-manual-page .tech-sidebar {
+    top: calc(var(--header-h) + 22px);
+    bottom: calc(86px + 24px);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+  }
+}
+
 .technical-manual-page section[id],
 .technical-manual-page h2[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 
@@ -2924,3 +2948,16 @@ body.flow-page .footer .container { height: auto; }
 .download-alt-list a:hover { color: var(--text); text-decoration: underline; }
 .download-alt-list a.is-current { color: var(--text); font-weight: 700; }
 .download-alt-list a.is-current::after { content: " ·目前系統"; font-weight: 500; opacity: .7; }
+
+/* 頁尾 ® 標誌：放大一點、改用系統字型，讓符號比較清楚 */
+.footer-brand .registered-mark {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 0;
+  margin-left: 1px;
+  vertical-align: 0;
+  position: relative;
+  top: -0.55em;
+  color: var(--text);
+}
